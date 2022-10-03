@@ -1,0 +1,1790 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Mar  2 09:19:37 2022
+
+@author: Léo PASTUREL
+
+Python version: 3.9
+Mathôt's code: https://github.com/open-cogsci/python-datamatrix
+PsychoPy version: v2021.2.3
+"""
+
+"""
+In this version, I use the proper blink reconstruction method that already
+applies a Hanning window to smooth the data.
+"!!!" is added in the description when variables from a cell are reused in another one.
+
+!!! In cell 1, we are downloading the data. Inspired by Mathôt et al. (2018).
+In cell 2, we are plotting a graph with all data.
+In cell 3, we are plotting one graph per participant.
+In cell 4, we are plotting one graph per rating.
+In cell 5, we are plotting one graph per rating and per participant.
+!!! In cell 6, we are creating a wide format dataframe and export it to csv.
+!!! In cell 7, we create a shorten wide format dataframe, export it to csv
+and plot the results (Results in the paper are from there). Also graph results from
+subpopulations (low/high mean_rating, QMI and afterimage)
+In cell 8, we create a new dataframe and export it to excel. It will allow 
+us to continue data analysis in R.
+In cell 9, we create a new dataframe with 1 line per participant by subtracting 
+mean data of one condition to the other and plot the result (1 line per participant)
+In cell 10 to 12, we plot gaze position across time
+In cell 13, we create histograms of blinks during the whole experiment and imagery.
+In cell 14, we plot the distance to center of the gaze over time; Once with one plot
+with all participants and one with one plot per participant.
+In cell 15, we plot an histogram of pupil size during baseline to see if 
+participants should be removed (according to Mathôt et al., 2018)
+In cell 16, we compute the correlation matrices and p-values for qmi and mean rating.
+
+
+In more features are some drafts and other ideas not used. 
+"""
+
+#%%
+
+# ==============================================================================
+# Cell 1 : Read data
+# =============================================================================
+
+import numpy as np
+from matplotlib import pyplot as plt
+from datamatrix import plot, convert, DataMatrix, io
+from datamatrix.colors.tango import blue, red
+from datamatrix import functional as fnc, series as srs, operations as ops
+import datamatrix
+from eyelinkparser import parse, defaulttraceprocessor
+from scipy.signal import windows, filtfilt
+import pandas as pd
+import os
+import inspect
+import time
+from datetime import datetime
+from datamatrix import SeriesColumn
+import matplotlib.colors as colors
+import seaborn as sns
+import scipy.stats
+import matplotlib
+
+# Print out when you started to launch the code
+now = datetime.now()
+
+
+current_time = now.strftime("%H:%M:%S")
+print("Starting Time =", current_time)
+
+
+# Define values for depth of each cell within columns.
+baseline_length_KR = 1000
+stim_length_KR = 5000
+rest_length_KR = 10000
+imag_length_KR = 6000
+
+pupil_length_KR = baseline_length_KR + stim_length_KR + rest_length_KR + imag_length_KR  
+
+# Define plot size
+FIGSIZE = 10, 5
+X_KR = np.linspace(0, pupil_length_KR/1000, pupil_length_KR)
+matplotlib.style.use('seaborn-whitegrid')
+
+# Define parameters for the get_data function
+smooth_winlen = 51 # Mathôt, 2018, uses 51ms
+
+    
+### GET DIRECTORIES ###
+# Get full actual file path
+actual_file_path = inspect.getframeinfo(inspect.currentframe()).filename
+# Get parent folder path
+path_KR = os.path.dirname(os.path.abspath(actual_file_path))
+folder_asc = 'data_asc'
+full_path_KR = os.path.join(path_KR, folder_asc)
+
+# Create a path outside of the git because memoize files are too big for git
+out_of_git_path_KR = os.path.dirname(os.path.dirname(os.path.dirname(path_KR)))
+fnc.memoize.folder = out_of_git_path_KR  + "\\.memoize_KR" # Change the cache folder of the memoize function
+
+
+@fnc.memoize(persistent = True)
+def get_data_KR():
+    """Create a simple datamatrix with all data of interest."""
+
+    # Get the datafolder that contains all the .asc files
+    dm_KR = parse(
+        folder = full_path_KR) # Folder with .asc 
+    
+    # print(dm_KR.ptrace_baseline.depth, dm_KR.ptrace_stim.depth, dm_KR.ptrace_rest.depth,
+    #       dm_KR.ptrace_imag.depth)
+    
+    # Apply depth to each column
+    dm_KR.ptrace_baseline.depth = baseline_length_KR
+    dm_KR.ptrace_stim.depth = stim_length_KR
+    dm_KR.ptrace_rest.depth = rest_length_KR
+    dm_KR.ptrace_imag.depth = imag_length_KR
+
+    # Concatenate pupil size of the whole trial for all trials
+    dm_KR.pupil = srs.concatenate(
+        dm_KR.ptrace_baseline,
+        dm_KR.ptrace_stim,
+        dm_KR.ptrace_rest,
+        dm_KR.ptrace_imag
+    )
+    
+    # Apply depth to each column for eye gaze un x
+    dm_KR.xtrace_baseline.depth = baseline_length_KR
+    dm_KR.xtrace_stim.depth = stim_length_KR
+    dm_KR.xtrace_rest.depth = rest_length_KR
+    dm_KR.xtrace_imag.depth = imag_length_KR
+    
+    # Apply depth to each column for eye gaze un y
+    dm_KR.ytrace_baseline.depth = baseline_length_KR
+    dm_KR.ytrace_stim.depth = stim_length_KR
+    dm_KR.ytrace_rest.depth = rest_length_KR
+    dm_KR.ytrace_imag.depth = imag_length_KR
+    
+    # Concatenate eye gaze in x of the whole trial for all trials
+    dm_KR.xtrace = srs.concatenate(
+        dm_KR.xtrace_baseline, 
+        dm_KR.xtrace_stim,
+        dm_KR.xtrace_rest, 
+        dm_KR.xtrace_imag
+    )
+    
+    # Concatenate eye gaze in y of the whole trial for all trials
+    dm_KR.ytrace = srs.concatenate(
+        dm_KR.ytrace_baseline, 
+        dm_KR.ytrace_stim,
+        dm_KR.ytrace_rest, 
+        dm_KR.ytrace_imag
+    )
+    
+    # Reconstruct the signal during blinks. Default parameters are mostly used
+    dm_KR.pupil = srs.blinkreconstruct(dm_KR.pupil, vt=5, vt_start=10, vt_end=5, maxdur=500,
+                         margin=10, smooth_winlen=smooth_winlen, std_thr=3, gap_margin=20,
+                         gap_vt=10, mode='advanced')
+    
+    # Create list of blinks
+    dm_KR.blinkstlist = srs.concatenate(
+        dm_KR.blinkstlist_baseline, 
+        dm_KR.blinkstlist_stim,
+        dm_KR.blinkstlist_rest, 
+        dm_KR.blinkstlist_imag
+    )
+    
+    # Keep raw pupil evolution
+    dm_KR.pupil_raw = dm_KR.pupil
+    
+    # Remove the baseline from the pupil size
+    dm_KR.pupil = srs.baseline(
+        dm_KR.pupil,
+        dm_KR.ptrace_baseline,
+        -500, -1,
+        method='divisive' # Should be either divisive or subtractive
+    )    
+    
+    # Remove the baseline from the pupil size during imagery
+    dm_KR.imag = srs.baseline(
+        dm_KR.ptrace_imag,
+        dm_KR.ptrace_baseline,
+        -500, -1,
+        method='divisive' # Should be either divisive or subtractive
+    ) 
+    
+    # Remove the baseline from the pupil size during baseline
+    dm_KR.baseline = srs.baseline(
+        dm_KR.ptrace_baseline,
+        dm_KR.ptrace_baseline,
+        -500, -1,
+        method='divisive' # Should be either divisive or subtractive
+    ) 
+    
+    # Remove the baseline from the pupil size during perception
+    dm_KR.stim = srs.baseline(
+        dm_KR.ptrace_stim,
+        dm_KR.ptrace_baseline,
+        -500, -1,
+        method='divisive' # Should be either divisive or subtractive
+    ) 
+    
+    # Remove the baseline from the pupil size during rest
+    dm_KR.rest = srs.baseline(
+        dm_KR.ptrace_rest,
+        dm_KR.ptrace_baseline,
+        -500, -1,
+        method='divisive' # Should be either divisive or subtractive
+    ) 
+    
+    # Define stimuli colors
+    dm_KR.stim_color = fnc.map_(
+        lambda s: 'white' if '[255.0,255.0,255.0]' in s  else 'black',
+        dm_KR.stim_color
+    )
+        
+    # Change name of trial ID variable
+    dm_KR.rename('trialid', 'trial_id')    
+        
+    dm_KR = ops.keep_only(dm_KR, dm_KR.subject_id, dm_KR.trial_id, dm_KR.pupil, dm_KR.imag, dm_KR.baseline,
+                       dm_KR.stim, dm_KR.rest, dm_KR.stim_color, dm_KR.stim_orientation, 
+                       dm_KR.rating, dm_KR.subject_session, dm_KR.exp_date, dm_KR.exp_name, 
+                       dm_KR.framerate, dm_KR.screen_size, dm_KR.background_lum, 
+                       dm_KR.rest_type, dm_KR.fix_cross_lum, dm_KR.text_color_original,
+                       dm_KR.fix_cross_lum_original, dm_KR.pupil_raw, 
+                       dm_KR.ptrace_baseline, dm_KR.ptrace_stim, dm_KR.ptrace_rest,
+                       dm_KR.ptrace_imag, dm_KR.xtrace, dm_KR.ytrace, dm_KR.blinkstlist,
+                       dm_KR.blinkstlist_baseline, dm_KR.blinkstlist_stim, dm_KR.blinkstlist_rest, 
+                       dm_KR.blinkstlist_imag, dm_KR.t_onset_baseline
+                       )
+    
+    return dm_KR
+
+
+@fnc.memoize(persistent = True)
+def remove_wrong_KR(dm_KR, wrong_baseline):
+    """Remove trials in which the baseline did not match the expectations"""
+    
+    wrong_baseline.reverse() # Reverse list items to start removing the ones with a bigger index
+    for wrong_trial in wrong_baseline:
+        del dm_KR[wrong_trial]   
+    return dm_KR
+
+
+
+@fnc.memoize(persistent = True)
+def remove_training_KR(dm_KR):
+    """Remove training trials"""
+    
+    counter = 0
+    for index_trial, trial in enumerate(dm_KR.trial_id):
+        try:
+            if trial < 3:
+                del dm_KR[index_trial - counter]
+                counter += 1
+        except:
+            TypeError
+            del dm_KR[index_trial - counter]
+            counter += 1
+    return dm_KR
+
+
+def trace(series, x=None, color=blue[1], err=True, binomial=False, **kwdict):
+
+    """
+    This is a modified version of Mathôt's plot.trace to have proper confidence 
+    intervals that take into account the 95% confidence level.
+    
+    desc:
+        Creates an average-trace plot.
+
+    arguments:
+        series:
+            desc:	The signal.
+            type:	SeriesColumn
+
+    keywords:
+        x:
+            desc:	An array for the X axis with the same length as series, or
+                    None for a default axis.
+            type:	[ndarray, None]
+        color:
+            desc:	The color.
+            type:	str
+        label:
+            desc:	A label for the line, or None for no label.
+            type:	[str, None]
+        """
+        
+    alpha=0.05
+    t=scipy.stats.t.ppf((1-alpha/2),len(series)-1)
+    
+    y = series.mean
+    if x is None:
+        x = np.arange(len(y))
+    elif type(x) is datamatrix._datamatrix._seriescolumn._SeriesColumn:
+        x = series.mean
+    if err:
+        n = (~np.isnan(series)).sum(axis=0)
+        if binomial:
+            yerr = np.sqrt((1./n) * y * (1-y))
+        else:
+            yerr = series.std/np.sqrt(n)
+        ymin = y-t*yerr
+        ymax = y+t*yerr
+        plt.fill_between(x, ymin, ymax, color=color, alpha=.2)
+    plt.plot(x, y, color=color, **kwdict)
+
+
+
+# Call function
+t0 = time.time()
+dm_KR = get_data_KR()
+
+# Keep an untouched version of the datamatrix
+dm_KR_raw = dm_KR 
+
+# Remove the training trials
+dm_KR = remove_training_KR(dm_KR)
+       
+# Show participants that had a wrong baseline and the number of baseline they had wrong
+dic_subj = {}
+counter = 0
+# If baseline size < 2mm or > 8mm, remove trial and count it
+wrong_baseline = [] # Create list to have a trace of which trials have to be removed. 
+for index_baseline, trial in enumerate(dm_KR.ptrace_baseline):
+    mean_base = np.nanmean(trial[-500:]) # Only take the last 500ms since we are computing the baseline on them.
+    if dm_KR.subject_id[index_baseline] not in dic_subj.keys():
+        counter = 0 # Restart counter if you're on a new subject
+    # if mean_base < 2000 or mean_base > 8000: # Check if mean pupil size is not in proper range
+    if np.isnan(mean_base) == True: # Check if baseline has values
+        if index_baseline not in wrong_baseline:
+            counter += 1
+            dic_subj[dm_KR.subject_id[index_baseline]] = counter
+            wrong_baseline.append(index_baseline)
+            
+
+dm_KR = remove_wrong_KR(dm_KR, wrong_baseline)
+print(f"There has been {len(wrong_baseline)} trials that have been removed because there was no data during baseline.")
+print(dic_subj)
+
+t1 = time.time()
+print('Full timing KR: %.2f mn' % ((t1-t0)/60))
+
+#%%
+
+# =============================================================================
+# Cell 2 : Plot a quick graph with all data (WRONG)
+# WARNING: This is just a quick way to plot all data but should not be used as such.
+# Refer to cell 7 for a proper graph.
+# =============================================================================
+
+plot.new(size=FIGSIZE)
+plt.ylim()
+plt.xlim(0, pupil_length_KR/1000)
+
+
+# Split conditions white vs black
+for stim_color, _dm_KR in ops.split(dm_KR.stim_color):
+    trace(
+        _dm_KR.pupil,
+        x=X_KR, 
+        color=blue[1] if stim_color == 'white' else red[1],
+        label='%s condition (N=%d)' % (stim_color, len(_dm_KR))
+    )
+
+# Draw dotted lines on the graph
+plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+plt.axvline(baseline_length_KR/1000+0.2, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 1.5, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+plt.axhline(1, color='black', linestyle=':') # Add horizontal line for baseline level
+
+# Add annotations
+plt.annotate('Baseline', rotation=90,
+            xy=(64, 265), xycoords='figure points')
+plt.annotate('Perception',
+            xy=(120, 300), xycoords='figure points')
+plt.annotate('Rest',
+            xy=(305, 300), xycoords='figure points')
+plt.annotate('Imagery',
+            xy=(490, 300), xycoords='figure points')
+
+  
+plt.ylabel('Pupil size (normalized)')
+plt.xlabel('Time (s)')
+plt.title("Normalized pupil diameter evolution over time in general population")
+plt.legend(loc='lower left', frameon=True)
+# plt.savefig(path_KR + '\pupil_response_all_subjects.png', bbox_inches='tight')
+plt.show()
+
+
+#%%
+
+# =============================================================================
+# Cell 3 : Plot data with one graph per subject
+# =============================================================================
+
+subject_list = []
+for subject in dm_KR.subject_id:
+    if subject not in subject_list:
+        subject_list.append(subject)
+        subject_nb = subject[-3:]
+        dm_KR_subj =  dm_KR.subject_id == {subject}
+        
+        plot.new(size=FIGSIZE)
+        plt.ylim()
+        plt.xlim(0, pupil_length_KR/1000)
+        
+        
+        # Split conditions white vs black
+        for stim_color, _dm_KR_subj in ops.split(dm_KR_subj.stim_color):
+            trace(
+                _dm_KR_subj.pupil_raw,
+                x=X_KR, 
+                color=blue[1] if stim_color == 'white' else red[1],
+                label='%s condition (N=%d)' % (stim_color, len(_dm_KR_subj))
+            )
+
+        # Draw dotted lines on the graph
+        plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+        plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+        plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+        plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 1.5, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+        plt.axhline(1, color='black', linestyle=':') # Add horizontal line for baseline level
+
+        # Add annotations
+        plt.annotate('Baseline', rotation=90,
+                    xy=(64, 265), xycoords='figure points')
+        plt.annotate('Perception',
+                    xy=(120, 300), xycoords='figure points')
+        plt.annotate('Rest',
+                    xy=(305, 300), xycoords='figure points')
+        plt.annotate('Imagery',
+                    xy=(500, 300), xycoords='figure points')
+          
+        
+        plt.ylabel('Pupil size (normalized)')
+        plt.xlabel('Time (s)')
+        plt.title(f"Normalized pupil diameter evolution over time in general population\nSubject n°{subject_nb}")
+        plt.legend(loc='lower left', frameon=True)
+        # plt.savefig(path_KR + f'\Graphs\per_subject\pupil_response_KR_subject_{subject}.png', 
+                    # bbox_inches='tight')
+        plt.show()
+
+#%%
+
+# =============================================================================
+# Cell 4 : Plot data with one graph per rating
+# =============================================================================
+
+rating_list = [1,2,3,4]
+
+for rating in rating_list:
+
+    dm_KR_rating = dm_KR.rating == {rating}
+    
+    plot.new(size=FIGSIZE)
+    plt.ylim()
+    plt.xlim(0, pupil_length_KR/1000)
+
+    # Split conditions white vs black
+    for stim_color, _dm_KR_rating in ops.split(dm_KR_rating.stim_color):
+        trace(
+            _dm_KR_rating.pupil,
+            x=X_KR, 
+            color=blue[1] if stim_color == 'white' else red[1],
+            label='%s condition (N=%d)' % (stim_color, len(_dm_KR_rating))
+        )
+
+    # Draw dotted lines on the graph
+    plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+    plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+    plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+    plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 2, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+    plt.axhline(1, color='black', linestyle=':') # Add horizontal line for baseline level 
+
+    # Add annotations
+    plt.annotate('Baseline', rotation=90,
+                xy=(64, 265), xycoords='figure points')
+    plt.annotate('Perception',
+                xy=(110, 295), xycoords='figure points')
+    plt.annotate('Rest',
+                xy=(305, 295), xycoords='figure points')
+    plt.annotate('Imagery',
+                xy=(520, 295), xycoords='figure points')
+    
+    plt.ylabel('Pupil size (normalized)')
+    plt.xlabel('Time (s)')
+    plt.title(f"Normalized pupil diameter evolution over time in general population\nRating {rating}")
+    plt.legend(loc='lower left', frameon=True)
+    plt.savefig(path_KR + f'\Graphs\per_rating\pupil_response_KR_rating_{rating}.png', 
+                bbox_inches='tight')
+    plt.show()    
+    
+
+#%%
+
+# =============================================================================
+# Cell 5 : Plot data with one graph per rating and per subject
+# =============================================================================
+
+rating_list = [1,2,3,4]
+subject_list = []
+
+for subject in dm_KR.subject_id:
+    if subject not in subject_list:
+        subject_list.append(subject)
+        subject_nb = len(subject_list)
+        dm_KR_subj =  dm_KR.subject_id == {subject}
+        
+        for rating in rating_list:
+        
+            dm_KR_rating = dm_KR_subj.rating == {rating}
+            
+            plot.new(size=FIGSIZE)
+            plt.ylim()
+            plt.xlim(0, pupil_length_KR/1000)
+        
+            # Split conditions white vs black
+            for stim_color, _dm_KR_rating in ops.split(dm_KR_rating.stim_color):
+                trace(
+                    _dm_KR_rating.pupil,
+                    x=X_KR, 
+                    color=blue[1] if stim_color == 'white' else red[1],
+                    label='%s condition (N=%d)' % (stim_color, len(_dm_KR_rating))
+                )
+        
+            # Draw dotted lines on the graph
+            plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+            plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+            plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+            plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 1, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+            plt.axhline(1, color='black', linestyle=':') # Add horizontal line for baseline level
+        
+            # Add annotations
+            plt.annotate('Baseline', rotation=90,
+                        xy=(65, 270), xycoords='figure points')
+            plt.annotate('Perception',
+                        xy=(120, 300), xycoords='figure points')
+            plt.annotate('Rest',
+                        xy=(305, 300), xycoords='figure points')
+            plt.annotate('Imagery',
+                        xy=(490, 300), xycoords='figure points')
+            
+            plt.ylabel('Pupil size (normalized)')
+            plt.xlabel('Time (s)')
+            plt.title(f"Normalized pupil diameter evolution over time in general population\nSubject n°{subject} Rating {rating}")
+            plt.legend(loc='lower left', frameon=True)
+            plt.show()    
+                    
+
+#%%
+
+# =============================================================================
+# Cell 6: Create a wide mastersheet and export it to csv 
+# ============================================================================= 
+
+# Convert datamtrix to pandas
+df_KR = convert.to_pandas(dm_KR)
+
+# Keep only columns of interest
+df_KR = df_KR[['subject_id', 'trial_id', 'exp_name', 'exp_date', 'stim_color', 'stim_orientation', 'rating', 'pupil']]
+
+# Split the column that contains pupil size to have one value per cell
+df_KR = df_KR.join(pd.DataFrame(df_KR['pupil'].values.tolist()).add_prefix('ms_'))
+
+# Export to csv
+df_KR.to_csv(out_of_git_path_KR + '\\KR_tables\\wide_mastersheet_KR.csv')
+
+
+#%%
+
+# =============================================================================
+# Cell 7: Reduce wide mastersheet to 1 line per subject and per condition and plot results
+# =============================================================================
+
+# Retreive mastersheet
+df_KR = pd.read_csv(out_of_git_path_KR + '\\KR_tables\\wide_mastersheet_KR.csv')
+
+# Compute the mean pupil size at any moment for one subject in one condition
+df_KR_short = df_KR.groupby(['subject_id', 'stim_color'], as_index = False).mean()
+
+# Remove unused columns
+df_KR_short = df_KR_short.drop(['Unnamed: 0', 'trial_id', 'stim_orientation'], axis=1)
+
+# Get the column headers without the rating
+ms_headers = df_KR_short.columns[3:]
+
+# Merge all ms_x columns into one
+df_KR_short['pupil_mean'] = df_KR_short[ms_headers].astype(str).agg(', '.join, axis=1)#.tolist()
+
+# Create a secondary table to store the values
+df_temp = pd.DataFrame(index = range(len(df_KR_short['pupil_mean'])), columns = ['pupil_mean'])
+for index in range(len(df_KR_short['pupil_mean'])):
+    df_temp['pupil_mean'][index] = str(list(map(float, df_KR_short['pupil_mean'][index].split(", "))))
+    
+
+# Drop all ms_x columns and replace with the proper one.
+df_KR_short = df_KR_short.drop(ms_headers, axis=1)
+df_KR_short['pupil_mean'] = df_temp['pupil_mean']
+
+# Re-add the exp name
+df_KR_short['exp_name'] = "pupillo_repli"
+
+
+# Convert df to csv dataframe
+df_KR_short.to_csv(out_of_git_path_KR + '\\KR_tables\\wide_short_mastersheet_KR.csv')
+
+# Convert back to Datamatrix
+dm_KR_short = convert.from_pandas(df_KR_short)
+
+# Create a new colum in the datamatrix to re-inser pupil diameter
+dm_KR_short.pupil = SeriesColumn(depth=pupil_length_KR)
+
+# Insert pupil size in the proper column and in the proper format
+for index, pupil_size in enumerate(dm_KR_short.pupil_mean):
+    k = dm_KR_short.pupil_mean[index]
+    k = list(map(float, k[1:-1].split(", ")))
+    dm_KR_short.pupil[index] = np.asarray((k))
+
+# Be sure to keep only the right columns in the datamatrix
+dm_KR_short = ops.keep_only(dm_KR_short, dm_KR_short.subject_id,
+                      dm_KR_short.pupil, dm_KR_short.stim_color, 
+                      dm_KR_short.rating)
+
+
+# Plot the results with the new df. PLOT IN PAPER
+plot.new(size=FIGSIZE)
+plt.ylim()
+plt.xlim(0, pupil_length_KR/1000)
+
+
+# Draw dotted lines on the graph
+plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 1.5, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+plt.axhline(1, color='black', linestyle=':') # Add horizontal line for baseline level
+
+# Add annotations
+plt.annotate('Baseline', rotation=90,
+            xy=(64, 265), xycoords='figure points')
+plt.annotate('Perception',
+            xy=(110, 290), xycoords='figure points')
+plt.annotate('Rest',
+            xy=(305, 290), xycoords='figure points')
+plt.annotate('Imagery',
+            xy=(520, 290), xycoords='figure points')
+
+# Split conditions white vs black
+for stim_color, _dm_KR_short in ops.split(dm_KR_short.stim_color):
+    trace(
+        _dm_KR_short.pupil,
+        x=X_KR, 
+        color=blue[1] if stim_color == 'white' else red[1],
+        label='%s condition (N=%d)' % (stim_color, len(_dm_KR_short))
+    )
+
+  
+plt.ylabel('Pupil size (normalized)')
+plt.xlabel('Time (s)')
+plt.title("Normalized pupil diameter evolution over time in general population")
+plt.legend(loc='lower left', frameon=True)
+plt.savefig(path_KR + '\Graphs\pupil_response_KR_all_subjects.png', 
+            bbox_inches='tight')
+plt.show()
+
+
+
+# Graph for mean rating <= 2 and >= 3 
+
+rating_list = [2, 3]
+
+for rating in rating_list:
+    
+    if rating == 2:
+        dm_KR_rating = dm_KR_short.rating <= rating
+        
+    elif rating == 3:
+        dm_KR_rating = dm_KR_short.rating >= rating
+    
+    plot.new(size=FIGSIZE)
+    plt.ylim()
+    plt.xlim(0, pupil_length_KR/1000)
+
+    # Split conditions white vs black
+    for stim_color, _dm_KR_rating in ops.split(dm_KR_rating.stim_color):
+        trace(
+            _dm_KR_rating.pupil,
+            x=X_KR, 
+            color=blue[1] if stim_color == 'white' else red[1],
+            label='%s condition (N=%d)' % (stim_color, len(_dm_KR_rating))
+        )
+        
+    # Draw dotted lines on the graph
+    plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+    plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+    plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+    plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 1.5, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+    plt.axhline(1, color='black', linestyle=':') # Add horizontal line for baseline level
+    
+    # Add annotations
+    plt.annotate('Baseline', rotation=90,
+                xy=(64, 265), xycoords='figure points')
+    plt.annotate('Perception',
+                xy=(110, 290), xycoords='figure points')
+    plt.annotate('Rest',
+                xy=(305, 290), xycoords='figure points')
+    plt.annotate('Imagery',
+                xy=(520, 290), xycoords='figure points')
+
+    plt.ylabel('Pupil size (normalized)')
+    plt.xlabel('Time (s)')
+    
+    if rating == 2:
+        plt.title(f"Normalized pupil diameter evolution over time in population\n Mean rating ≤ {rating}")
+    elif rating == 3:
+        plt.title(f"Normalized pupil diameter evolution over time in population\n Mean rating ≥ {rating}")
+    
+    plt.legend(loc='lower left', frameon=True)
+    plt.show()    
+    
+
+# Graph for low and high QMI
+
+df_qmi = pd.read_csv(out_of_git_path_KR + '\\pupillometry_M2SCCO\\Analysis\\QMI\\qmi_results_summary.csv')
+
+dm_KR_qmi = dm_KR_short
+dm_KR_qmi.visual_qmi = ""
+
+subject_list = []
+
+for index, subject in enumerate(dm_KR_qmi.subject_id):
+    for index_qmi, subject_qmi in enumerate(df_qmi.subject):
+        if subject_qmi == subject[-4:]:
+            qmi_value = df_qmi.loc[index_qmi,'visual_qmi']
+        
+    dm_KR_qmi.visual_qmi[index] = qmi_value
+        
+    
+# Graph for visual QMI <= 15 and >= 30 
+
+qmi_list = [15, 30]
+
+for qmi in qmi_list:
+    
+    if qmi == 15:
+        dm_KR_qmi = dm_KR_short.visual_qmi <= qmi
+        
+    elif qmi == 30:
+        dm_KR_qmi = dm_KR_short.visual_qmi >= qmi
+    
+    plot.new(size=FIGSIZE)
+    plt.ylim()
+    plt.xlim(0, pupil_length_KR/1000)
+
+    # Split conditions white vs black
+    for stim_color, _dm_KR_qmi in ops.split(dm_KR_qmi.stim_color):
+        trace(
+            _dm_KR_qmi.pupil,
+            x=X_KR, 
+            color=blue[1] if stim_color == 'white' else red[1],
+            label='%s condition (N=%d)' % (stim_color, len(_dm_KR_qmi))
+        )
+        
+    # Draw dotted lines on the graph
+    plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+    plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+    plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+    plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 1.5, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+    plt.axhline(1, color='black', linestyle=':') # Add horizontal line for baseline level
+    
+    # Add annotations
+    plt.annotate('Baseline', rotation=90,
+                xy=(64, 265), xycoords='figure points')
+    plt.annotate('Perception',
+                xy=(110, 290), xycoords='figure points')
+    plt.annotate('Rest',
+                xy=(305, 290), xycoords='figure points')
+    plt.annotate('Imagery',
+                xy=(520, 290), xycoords='figure points')
+
+    plt.ylabel('Pupil size (normalized)')
+    plt.xlabel('Time (s)')
+    
+    if qmi == 15:
+        plt.title(f"Normalized pupil diameter evolution over time in population\n Visual qmi ≤ {qmi}")
+    elif qmi == 30:
+        plt.title(f"Normalized pupil diameter evolution over time in population\n Visual qmi ≥ {qmi}")
+    
+    plt.legend(loc='lower left', frameon=True)
+    plt.show()    
+    
+
+# Graph for After image vs No after image
+df_ai = pd.read_excel(out_of_git_path_KR + '\\info_subject_ano.xlsx')
+dm_KR_short_ai = dm_KR_short
+dm_KR_short_ai.ai = 0
+
+for index, subject in enumerate(dm_KR_short.subject_id):
+    for index_ai, subject_ai in enumerate(df_ai.subject):
+        if subject[-4:] == subject_ai:
+            dm_KR_short_ai.ai[index] = df_ai["afterimage"][index_ai]
+
+ai_list = [0, 0.5, 0.75, 1]
+
+for ai in ai_list:
+    dm_KR_ai = dm_KR_short_ai.ai == ai
+        
+    plot.new(size=FIGSIZE)
+    plt.ylim()
+    plt.xlim(0, pupil_length_KR/1000)
+
+    # Split conditions white vs black
+    for stim_color, _dm_KR_ai in ops.split(dm_KR_ai.stim_color):
+        trace(
+            _dm_KR_ai.pupil,
+            x=X_KR, 
+            color=blue[1] if stim_color == 'white' else red[1],
+            label='%s condition (N=%d)' % (stim_color, len(_dm_KR_ai))
+        )
+        
+    # Draw dotted lines on the graph
+    plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+    plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+    plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+    plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 1.5, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+    plt.axhline(1, color='black', linestyle=':') # Add horizontal line for baseline level
+    
+    # Add annotations
+    plt.annotate('Baseline', rotation=90,
+                xy=(64, 265), xycoords='figure points')
+    plt.annotate('Perception',
+                xy=(110, 290), xycoords='figure points')
+    plt.annotate('Rest',
+                xy=(305, 290), xycoords='figure points')
+    plt.annotate('Imagery',
+                xy=(520, 290), xycoords='figure points')
+
+    plt.ylabel('Pupil size (normalized)')
+    plt.xlabel('Time (s)')
+    
+    if ai == 0:
+        plt.title("Normalized pupil diameter evolution over time\nParticipants reporting no afterimage during the imagery phase")
+    elif ai == 1:
+        plt.title("Normalized pupil diameter evolution over time\nParticipants reporting afterimages throughout the imagery phase")
+    else:
+        plt.title(f"Normalized pupil diameter evolution over time\nParticipants reporting having afterimages (ai = {ai})")
+         
+    plt.legend(loc='lower left', frameon=True)
+    plt.show()    
+    
+
+# Plot results depending on both mean rating and afterimage
+ai_list = [0, 1]
+rating_list = [2, 3]
+
+for ai in ai_list:
+    dm_KR_ai = dm_KR_short_ai.ai == ai
+    
+    
+    for rating in rating_list:
+        if rating == 2:
+            dm_KR_ai_rating = dm_KR_ai.rating <= rating
+            
+        elif rating == 3:
+            dm_KR_ai_rating = dm_KR_ai.rating >= rating
+        
+        
+        plot.new(size=FIGSIZE)
+        plt.ylim()
+        plt.xlim(0, pupil_length_KR/1000)
+    
+        # Split conditions white vs black
+        for stim_color, _dm_KR_ai_rating in ops.split(dm_KR_ai_rating.stim_color):
+            trace(
+                _dm_KR_ai_rating.pupil,
+                x=X_KR, 
+                color=blue[1] if stim_color == 'white' else red[1],
+                label='%s condition (N=%d)' % (stim_color, len(_dm_KR_ai_rating))
+            )
+            
+        # Draw dotted lines on the graph
+        plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+        plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+        plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+        plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 1.5, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+        plt.axhline(1, color='black', linestyle=':') # Add horizontal line for baseline level
+        
+        # Add annotations
+        plt.annotate('Baseline', rotation=90,
+                    xy=(64, 265), xycoords='figure points')
+        plt.annotate('Perception',
+                    xy=(110, 290), xycoords='figure points')
+        plt.annotate('Rest',
+                    xy=(305, 290), xycoords='figure points')
+        plt.annotate('Imagery',
+                    xy=(520, 290), xycoords='figure points')
+    
+        plt.ylabel('Pupil size (normalized)')
+        plt.xlabel('Time (s)')
+        
+        if ai == 0 and rating == 2:
+            plt.title("Normalized pupil diameter evolution over time\nLow mean rating and no afterimage")
+        elif ai == 1 and rating == 2:
+            plt.title("Normalized pupil diameter evolution over time\nLow mean rating and afterimage")
+        elif ai == 0 and rating == 3:
+            plt.title("Normalized pupil diameter evolution over time\nHigh mean rating and no afterimage")
+        elif ai == 1 and rating == 3:
+            plt.title("Normalized pupil diameter evolution over time\nHigh mean rating and afterimage")
+        
+        else:
+            plt.title(f"Normalized pupil diameter evolution over time\nParticipants reporting having afterimages (ai = {ai})")
+             
+        plt.legend(loc='lower left', frameon=True)
+        plt.show()    
+        
+        
+plt.figure(figsize=FIGSIZE)
+plt.plot(dm_KR_short_ai.ai, dm_KR_short_ai.rating, "o", color = "black")
+plt.ylabel('Afterimage')
+plt.xlabel('Mean rating')
+plt.title("Comparison between afterimage and mean rating")
+plt.show()    
+
+#%%
+
+# =============================================================================
+# Cell 8: Create a smaller dataframe with mean pupil values (one line/subject)
+# =============================================================================
+
+# Create a recap of subject data
+dic_summary = []
+subject_list = []
+
+for subject in dm_KR.subject_id:
+    if subject not in subject_list:
+        subject_list.append(subject)
+        subject_nb = len(subject_list)
+        dm_KR_subj =  dm_KR.subject_id == {subject}
+
+        for stim_color, _dm_KR_subj in ops.split(dm_KR_subj.stim_color):
+
+            dic_summary.append(
+                {'subject_id' : subject,
+                'stim_color' : stim_color,
+                'exp_name' : "pupillo_repli",
+                'trials' : len(_dm_KR_subj),
+                'mean_pupil_size_baseline_500ms' : np.nanmean(_dm_KR_subj.baseline[-500:]),
+                'mean_pupil_size_perception_1000ms' : np.nanmean(list(map(lambda x: x[-1000:], _dm_KR_subj.stim))), # Take the last 1000ms
+                'mean_pupil_size_rest_1000ms' : np.nanmean(list(map(lambda x: x[-1000:], _dm_KR_subj.rest))), # Take the last 1000ms
+                'mean_pupil_size_imagery_4000ms' : np.nanmean(list(map(lambda x: x[1500:-500], _dm_KR_subj.imag))), # Don't take the first 2000ms and last 500ms
+                'std_pupil_size_imagery_4000ms' : np.nanstd(list(map(lambda x: x[1500:-500], _dm_KR_subj.imag))), # Don't take the first 2000ms and last 500ms
+                'median_rating' : np.median(_dm_KR_subj.rating),
+                'mean_rating' : np.mean(_dm_KR_subj.rating)
+                }
+            )
+
+subject_recap = pd.DataFrame(dic_summary)
+
+print(subject_recap)
+
+subject_recap.to_excel(out_of_git_path_KR + '\\KR_tables\\subject_recap_KR_regress.xlsx')
+
+
+
+# Create a recap of subject data and segregate conditions
+dic_summary = []
+subject_list = []
+
+for subject in dm_KR.subject_id:
+    if subject not in subject_list:
+        subject_list.append(subject)
+        subject_nb = len(subject_list)
+        dm_KR_subj =  dm_KR.subject_id == {subject}
+
+        for stim_color, _dm_KR_subj in ops.split(dm_KR_subj.stim_color):
+            if stim_color == "black":
+                dic_summary.append(
+                    {'subject_id' : subject,
+                    'exp_name' : "pupillo_repli",
+                    'B_mean_pupil_size_baseline_500ms' : np.nanmean(_dm_KR_subj.baseline[-500:]),
+                    'B_mean_pupil_size_perception_1000ms' : np.nanmean(list(map(lambda x: x[-1000:], _dm_KR_subj.stim))), # Take the last 1000ms
+                    'B_mean_pupil_size_rest_1000ms' : np.nanmean(list(map(lambda x: x[-1000:], _dm_KR_subj.rest))), # Take the last 1000ms
+                    'B_mean_pupil_size_imagery_4000ms' : np.nanmean(list(map(lambda x: x[1500:-500], _dm_KR_subj.imag))), # Don't take the first 2000ms and last 500ms
+                    'B_std_pupil_size_imagery_4000ms' : np.nanstd(list(map(lambda x: x[1500:-500], _dm_KR_subj.imag))), # Don't take the first 1500ms and last 500ms
+                    'B_median_rating' : np.median(_dm_KR_subj.rating),
+                    'B_mean_rating' : np.mean(_dm_KR_subj.rating)
+                    }
+                )                
+                
+            elif stim_color == "white":
+                dic_summary.append(
+                    {'W_mean_pupil_size_baseline_500ms' : np.nanmean(_dm_KR_subj.baseline[-500:]),
+                    'W_mean_pupil_size_perception_1000ms' : np.nanmean(list(map(lambda x: x[-1000:], _dm_KR_subj.stim))), # Take the last 1000ms
+                    'W_mean_pupil_size_rest_1000ms' : np.nanmean(list(map(lambda x: x[-1000:], _dm_KR_subj.rest))), # Take the last 1000ms
+                    'W_mean_pupil_size_imagery_4000ms' : np.nanmean(list(map(lambda x: x[1500:-500], _dm_KR_subj.imag))), # Don't take the first 2000ms and last 500ms
+                    'W_std_pupil_size_imagery_4000ms' : np.nanstd(list(map(lambda x: x[1500:-500], _dm_KR_subj.imag))), # Don't take the first 1500ms and last 500ms
+                    'W_median_rating' : np.median(_dm_KR_subj.rating),
+                    'W_mean_rating' : np.mean(_dm_KR_subj.rating)
+                    }
+                )
+
+subject_recap = pd.DataFrame(dic_summary)
+subject_recap = subject_recap.apply(lambda x: pd.Series(x.dropna().values))
+
+print(subject_recap)
+
+subject_recap.to_excel(out_of_git_path_KR + '\\KR_tables\\subject_recap_KR_ANOVA.xlsx')
+
+
+#%%
+
+# =============================================================================
+# Cell 9: Create a datamatrix with one line per subject by subtracting white to black 
+# conditions and draw graph.
+# =============================================================================
+
+# Retreive mastersheet
+df_KR = pd.read_csv(out_of_git_path_KR + '\\KR_tables\\wide_mastersheet_KR.csv')
+
+# Compute the mean pupil size at any moment for one subject in one condition
+df_w_b = df_KR.groupby(['subject_id', 'stim_color'], as_index = False).mean()
+
+# Remove unused columns
+df_w_b = df_w_b.drop(['Unnamed: 0', 'trial_id', 'stim_orientation'], axis=1)
+
+# Get the column headers without the rating
+ms_headers = df_w_b.columns[3:]
+
+# Creating a new df by subtracting one condition by the other.
+df_temp_w_b = pd.DataFrame()
+for col in ms_headers:
+    df_temp_w_b[col + '_w_b'] = (df_w_b[col].values[1::2] - df_w_b[col].values[::2])
+
+df_temp_w_b['rating'] = (df_w_b.rating.values[1::2] - df_w_b.rating.values[::2])
+df_w_b = df_temp_w_b
+
+# Merge all ms_x columns into one
+df_w_b['pupil_mean'] = df_w_b[ms_headers + '_w_b'].astype(str).agg(', '.join, axis=1)#.tolist()
+
+
+df_temp_w_b = pd.DataFrame(index = range(len(df_w_b['pupil_mean'])), columns = ['pupil_mean'])
+for index in range(len(df_w_b['pupil_mean'])):
+    df_temp_w_b['pupil_mean'][index] = str(list(map(float, df_w_b['pupil_mean'][index].split(", "))))
+    
+
+# Drop all ms_x columns and replace with the proper one.
+df_w_b['pupil_mean'] = df_temp_w_b['pupil_mean']
+
+# Re-add the exp name
+df_w_b['exp_name'] = "pupillo_repli"
+
+
+# Convert df to csv dataframe
+df_w_b.to_csv(out_of_git_path_KR + '\\KR_tables\\wide_short_mastersheet_w_b.csv')
+
+# Convert back to Datamatrix
+dm_KR_w_b = convert.from_pandas(df_w_b)
+
+# Create a new colum in the datamatrix to re-inser pupil diameter
+dm_KR_w_b.pupil = SeriesColumn(depth=pupil_length_KR)
+
+# Insert pupil size in the proper column and in the proper format
+for index, pupil_size in enumerate(dm_KR_w_b.pupil_mean):
+    k = dm_KR_w_b.pupil_mean[index]
+    k = list(map(float, k[1:-1].split(", ")))
+    dm_KR_w_b.pupil[index] = np.asarray((k))
+
+# Retrieve subject_id
+subject_list = []
+for subject in dm_KR.subject_id:
+    if subject not in subject_list:
+        subject_list.append(subject)
+
+dm_KR_w_b.subject_id = subject_list
+
+# Be sure to keep only the right columns in the datamatrix
+dm_KR_w_b = ops.keep_only(dm_KR_w_b, dm_KR_w_b.exp_name, dm_KR_w_b.pupil, 
+                          dm_KR_w_b.rating, dm_KR_w_b.subject_id)
+
+
+
+# Plot results in 1 plot with 1 line per subject.
+
+color_palette = list(colors.cnames.values())
+
+plot.new(size=FIGSIZE)
+plt.ylim()
+plt.xlim(0, pupil_length_KR/1000)
+
+
+plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 1.5, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+plt.axhline(0, color='black', linestyle=':') # Add horizontal line for baseline level
+
+# Add annotations
+plt.annotate('Baseline', rotation=90,
+            xy=(64, 265), xycoords='figure points')
+plt.annotate('Perception',
+            xy=(110, 295), xycoords='figure points')
+plt.annotate('Rest',
+            xy=(305, 295), xycoords='figure points')
+plt.annotate('Imagery',
+            xy=(520, 295), xycoords='figure points')
+
+# Split per subject
+counter = 0
+for subject, _dm_KR_w_b in ops.split(dm_KR_w_b.subject_id):
+    trace(
+        _dm_KR_w_b.pupil,
+        x=X_KR,
+        color = color_palette[counter],
+        label='Subject %s' % (subject[-3:]),
+        )
+    counter += 1
+
+
+plt.ylabel('Pupil size difference')
+plt.xlabel('Time (s)')
+plt.title("Difference in pupil diameter evolution over time depending on conditions")
+# plt.legend()
+plt.savefig(path_KR + '\Graphs\pupil_response_KR_subtracted_condition.png', 
+            bbox_inches='tight')
+plt.show()
+
+
+
+#%%
+
+# =============================================================================
+# Cell 10: Graph average gaze per subject during experiment
+# =============================================================================
+
+subject_list = []
+
+for subject in dm_KR.subject_id:
+    if subject not in subject_list:
+        subject_list.append(subject)
+        subject_nb = subject[-3:]
+        dm_KR_subj =  dm_KR.subject_id == {subject}
+        ms_KR = range(len(dm_KR_subj.xtrace.mean))
+
+        # with sns.color_palette("Oranges", len(dm_KR_subj.xtrace.mean)):
+        cmap = plt.set_cmap("cividis")
+        plt.figure(figsize = FIGSIZE)
+        plt.ylim(0, 1024)
+        plt.xlim(0, 1280)
+        
+        sns.scatterplot(x=dm_KR_subj.xtrace.mean, y=dm_KR_subj.ytrace.mean, 
+                      hue = ms_KR, palette="cividis")
+        # plt.plot(dm_KR_subj.xtrace.mean, dm_KR_subj.ytrace.mean, 'o-')
+  
+        plt.ylabel('Pixel in y')
+        plt.xlabel('Pixel in x')
+        plt.set_cmap("Greys") 
+        plt.title(f"Mean gaze of paricipant n°{subject_nb} during the experiment KR")
+        plt.savefig(path_KR + f'\Graphs\mean_gaze\Mean gaze of participant n°{subject_nb}.png')
+        # plt.show()
+
+#%%
+
+# =============================================================================
+# Cell 11: Graph gaze per subject during experiment
+# =============================================================================
+
+subject_list = []
+for subject in dm_KR.subject_id:
+    if subject not in subject_list:
+        subject_list.append(subject)
+        subject_nb = subject[-3:]
+        dm_KR_subj =  dm_KR.subject_id == {subject}
+        
+        plt.figure(figsize = FIGSIZE)
+        plt.ylim(0, 1024)
+        plt.xlim(0, 1280)
+        
+        counter = 0
+        for trial in dm_KR_subj:
+            plt.plot(trial.xtrace, trial.ytrace, 'o-', label = f"Trial n°{trial.trial_id-2}")
+            counter += 1
+            
+        plt.ylabel('Pixel in y')
+        plt.xlabel('Pixel in x')
+        plt.title(f"Gaze of paricipant n°{subject_nb} during the experiment KR")
+        plt.legend(bbox_to_anchor =(0, -0.5), ncol = 4, loc = "lower left")
+        plt.savefig(path_KR + f'\Graphs\gaze\Gaze of participant n°{subject_nb}.png')
+        # plt.show()
+
+#%%
+
+# =============================================================================
+# Cell 12: Graph gaze per subject during imagery
+# =============================================================================
+
+subject_list = []
+for subject in dm_KR.subject_id:
+    if subject not in subject_list:
+        subject_list.append(subject)
+        subject_nb = subject[-3:]
+        dm_KR_subj =  dm_KR.subject_id == {subject}
+        
+        plt.figure(figsize = FIGSIZE)
+        plt.ylim(0, 1024)
+        plt.xlim(0, 1280)
+        
+        counter = 0
+        for trial in dm_KR_subj:
+            plt.plot(trial.xtrace[-4500:-500], trial.ytrace[-4500:-500], 'o-', label = f"Trial n°{trial.trial_id-2}")
+            counter += 1
+            
+        plt.ylabel('Pixel in y')
+        plt.xlabel('Pixel in x')
+        plt.title(f"Gaze of paricipant n°{subject_nb} during imagery for experiment KR")
+        plt.legend(bbox_to_anchor =(0, -0.5), ncol = 4, loc = "lower left")
+        plt.savefig(path_KR + f'\Graphs\gaze_imagery\Gaze imagery of participant n°{subject_nb}.png')
+        # plt.show()
+   
+        
+
+#%%
+
+# =============================================================================
+# Cell 13: Draw histogram of blinks during experiment and during imagery
+# =============================================================================
+
+# Blinks during complete experiment 
+count_blink = []
+sum_blink = []
+subject_list = []
+for subject in dm_KR.subject_id:
+    if subject[-4:] not in subject_list:
+        subject_list.append(subject[-4:])
+        dm_KR_subj =  dm_KR.subject_id == {subject}
+        for index in dm_KR_subj.blinkstlist:
+            count_blink.append(sum(1 for _ in index if _ > 0))
+        
+        sum_blink.append(sum(count_blink))
+        count_blink = []
+
+# Create df with blinks and subjects
+zipped = list(zip(subject_list, sum_blink))
+df_blink_KR = pd.DataFrame(columns = ("subject_id", "blink_count"), data=zipped)
+df_blink_KR_sorted = df_blink_KR.sort_values('blink_count')
+
+# Plot results
+plt.figure(figsize = FIGSIZE)
+plt.bar(df_blink_KR_sorted.subject_id, df_blink_KR_sorted.blink_count)
+plt.ylabel("Number of blinks")
+plt.xlabel("Subject number")
+plt.xticks(rotation = 90)
+plt.title("Number of blinks during the experiment KR")
+plt.savefig(path_KR + '\\Graphs\\Number of blinks during all experiment.png')
+plt.show()
+
+
+# Blinks during imagery
+count_blink = []
+sum_blink_imag = []
+subject_list = []
+for subject in dm_KR.subject_id:
+    if subject[-4:] not in subject_list:
+        subject_list.append(subject[-4:])
+        dm_KR_subj =  dm_KR.subject_id == {subject}
+        for index in dm_KR_subj.blinkstlist_imag:
+            count_blink.append(sum(1 for _ in index if _ > 0))
+        
+        sum_blink_imag.append(sum(count_blink))
+        count_blink = []
+
+# Create df with blinks and subjects
+zipped = list(zip(subject_list, sum_blink_imag))
+df_blink_KR_imag = pd.DataFrame(columns = ("subject_id", "blink_count"), data=zipped)
+df_blink_KR_imag_sorted = df_blink_KR_imag.sort_values('blink_count')
+
+# Plot results
+plt.figure(figsize = FIGSIZE)
+plt.bar(df_blink_KR_imag_sorted.subject_id, df_blink_KR_imag_sorted.blink_count)
+plt.ylabel("Number of blinks")
+plt.xlabel("Subject number")
+plt.xticks(rotation = 90)
+plt.title("Number of blinks during imagery of experiment KR")
+plt.savefig(path_KR + '\\Graphs\\Number of blinks during imagery.png')
+plt.show()
+
+
+#%%
+
+# =============================================================================
+# Cell 14: Plot distance to center of the gaze over time
+# =============================================================================
+
+# Make a copy of dm to work on.
+dm_KR_x_y = dm_KR
+
+
+# Normalize distance in x from center 
+dm_KR_x_y.xtrace = srs.baseline(
+    dm_KR_x_y.xtrace,
+    dm_KR_x_y.xtrace,
+    0, -1, # Use last 500ms of baseline
+    method='subtractive' # Should be either divisive or subtractive
+) 
+
+# Normalize distance in y from center 
+dm_KR_x_y.ytrace = srs.baseline(
+    dm_KR_x_y.ytrace,
+    dm_KR_x_y.ytrace,
+    0, -1, # Use last 500ms of baseline
+    method='subtractive' # Should be either divisive or subtractive
+) 
+
+
+# Compute distance from center.
+# dm_KR_x_y.distance = np.sqrt(dm_KR_x_y.xtrace*dm_KR_x_y.xtrace + dm_KR_x_y.ytrace*dm_KR_x_y.ytrace)
+dm_KR_x_y.distance = np.sqrt((dm_KR_x_y.xtrace**2 + dm_KR_x_y.ytrace**2))
+
+
+# Plot results in 1 plot with 1 line per subject.
+color_palette = list(colors.cnames.values())
+
+plot.new(size=FIGSIZE)
+plt.ylim(0, 500)
+plt.xlim(0, pupil_length_KR/1000)
+
+
+plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 1.5, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+# plt.axhline(1, color='black', linestyle=':') # Add horizontal line for baseline level
+
+# Add annotations
+plt.annotate('Baseline', rotation=90,
+            xy=(64, 265), xycoords='figure points')
+plt.annotate('Perception',
+            xy=(110, 293), xycoords='figure points')
+plt.annotate('Rest',
+            xy=(305, 293), xycoords='figure points')
+plt.annotate('Imagery',
+            xy=(520, 293), xycoords='figure points')
+
+# Split per subject
+counter = 0
+for subject, _dm_KR_x_y in ops.split(dm_KR_x_y.subject_id):
+    trace(
+        _dm_KR_x_y.distance,
+        x=X_KR,
+        color = color_palette[counter],
+        label='Subject %s' % (subject[-3:]),
+        err = False
+        )
+    counter += 1
+
+
+plt.ylabel('Distance from center (in pixel)')
+plt.xlabel('Time (s)')
+plt.title("Mean distance of gaze from center during PF")
+# plt.legend()
+plt.savefig(path_KR + '\Graphs\gaze_distance_from_center_KR.png', 
+            bbox_inches='tight')
+plt.show()
+
+
+# Create one plot per participant
+subject_list = []
+for subject in dm_KR_x_y.subject_id:
+    if subject not in subject_list:
+        subject_list.append(subject)
+        subject_nb = subject[-3:]
+        dm_KR_x_y_subj =  dm_KR_x_y.subject_id == {subject}
+        
+        plot.new(size=FIGSIZE)
+        plt.ylim()
+        plt.xlim(0, pupil_length_KR/1000)
+        
+        
+        # Split per subject
+        counter = 0
+        for trial_id, _dm_KR_x_y in ops.split(dm_KR_x_y_subj.trial_id):
+            trace(
+                _dm_KR_x_y.distance,
+                x=X_KR,
+                color = color_palette[counter],
+                label='Trial %s' % (trial_id),
+                err = False
+                )
+            counter += 1
+
+        # Draw dotted lines
+        plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+        plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+        plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+        plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 1.5, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+        # plt.axhline(1, color='black', linestyle=':') # Add horizontal line for baseline level
+        
+        # Add annotations
+        plt.annotate('Baseline', rotation=90,
+                    xy=(64, 265), xycoords='figure points')
+        plt.annotate('Perception',
+                    xy=(110, 293), xycoords='figure points')
+        plt.annotate('Rest',
+                    xy=(305, 293), xycoords='figure points')
+        plt.annotate('Imagery',
+                    xy=(520, 293), xycoords='figure points')
+          
+        
+        plt.ylabel('Pupil size (normalized)')
+        plt.xlabel('Time (s)')
+        plt.title(f"Normalized pupil diameter evolution over time in general population\nSubject n°{subject_nb}")
+        plt.legend(loc='lower left', frameon=True)
+        plt.savefig(path_KR + f'\Graphs\gaze_per_subject\gaze_distance_from_center_KR{subject}.png', 
+                    bbox_inches='tight')
+        plt.show()
+
+
+
+#%%
+
+# =============================================================================
+# Cell 15: Making a quick histogram of pupil size during baseline.
+# This is to see if some participants baseline are outliers (see Mathôt et al., 2018)
+# =============================================================================
+
+baseline_list = []
+subject_list = []
+for subject in dm_KR.subject_id:
+    if subject not in subject_list:            
+        
+        subject_list.append(subject)
+        dm_KR_subj =  dm_KR.subject_id == {subject}
+        
+        for index, trial in enumerate(dm_KR_subj.ptrace_baseline):
+            baseline_list.append(np.nanmean(trial))
+
+print(len(baseline_list))
+plt.hist(baseline_list, bins = (len(dm_KR.subject_id)//2))
+plt.axvline(4000, color='black', linestyle=':')
+plt.axvline(9000, color='black', linestyle=':')
+plt.show()
+
+print(sum(1 for _ in baseline_list if _ > 9000))
+
+
+#%%
+# =============================================================================
+# Cell 16: Compute correlation matrix and p-values for qmi and mean rating
+# =============================================================================
+
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from scipy import stats
+
+
+dm_KR_qmi = dm_KR_short
+dm_KR_qmi.visual_qmi = ""
+
+subject_list = []
+
+for index, subject in enumerate(dm_KR_qmi.subject_id):
+    for index_qmi, subject_qmi in enumerate(df_qmi.subject):
+        if subject_qmi == subject[-4:]:
+            qmi_value = df_qmi.loc[index_qmi,'visual_qmi']
+        
+    dm_KR_qmi.visual_qmi[index] = qmi_value
+    
+df_KR_qmi = convert.to_pandas(dm_KR_qmi)
+
+r, p = stats.pearsonr(df_KR_qmi["rating"],df_KR_qmi["visual_qmi"])
+print("r=", r, ", p=",p)
+
+mu = np.mean(df_KR_qmi["rating"])
+sd = np.std(df_KR_qmi["rating"])/np.sqrt(len(df_KR_qmi))
+print("mu=", mu, ", sd=",sd)
+
+
+df_KR_qmi.to_excel(out_of_git_path_KR + '\\KR_tables\\qmi_rating_KR.xlsx')
+
+
+#%%
+#%%
+
+# =============================================================================
+# More features...  
+# ============================================================================= 
+
+#%%
+#%%
+
+# Play an auditory beep 
+
+import winsound
+frequency = 500  # Set Frequency To 2500 Hertz
+duration = 1000  # Set Duration To 1000 ms == 1 second
+winsound.Beep(frequency, duration)
+
+#%%
+
+# Subtract one condition to the other.
+
+
+plot.new(size=FIGSIZE)
+plt.ylim()
+plt.xlim(0, pupil_length_KR/1000)
+
+
+plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 1.5, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+plt.axhline(1, color='black', linestyle=':') # Add horizontal line for baseline level
+
+# Add annotations
+plt.annotate('Baseline', rotation=90,
+            xy=(65, 270), xycoords='figure points')
+plt.annotate('Perception',
+            xy=(120, 300), xycoords='figure points')
+plt.annotate('Rest',
+            xy=(305, 300), xycoords='figure points')
+plt.annotate('Imagery',
+            xy=(490, 300), xycoords='figure points')
+
+# Split conditions white vs black
+for stim_color, _dm_KR_short in ops.split(dm_KR_short.stim_color):
+    trace(
+        _dm_KR_short.pupil_w_b,
+        x=X_KR, 
+        color=blue[1] if stim_color == 'white' else red[1],
+        label='%s condition (N=%d)' % (stim_color, len(_dm_KR_short))
+    )
+
+  
+plt.ylabel('Pupil size (normalized)')
+plt.xlabel('Time (s)')
+plt.title("Normalized pupil diameter evolution over time in general population")
+plt.legend(loc='lower left', frameon=True)
+plt.show()
+
+#%%
+
+rating_list = [2, 3, 3.5]
+
+for rating in rating_list:
+
+    dm_KR_rating = dm_KR_short.rating > rating
+    
+    plot.new(size=FIGSIZE)
+    plt.ylim()
+    plt.xlim(0, pupil_length_KR/1000)
+
+    # Split conditions white vs black
+    for stim_color, _dm_KR_rating in ops.split(dm_KR_rating.stim_color):
+        trace(
+            _dm_KR_rating.pupil,
+            x=X_KR, 
+            color=blue[1] if stim_color == 'white' else red[1],
+            label='%s condition (N=%d)' % (stim_color, len(_dm_KR_rating))
+        )
+
+    # Draw dotted lines on the graph
+    plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+    plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+    plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+    plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 2, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+    plt.axhline(1, color='black', linestyle=':') # Add horizontal line for baseline level 
+
+    # Add annotations
+    plt.annotate('Baseline', rotation=90,
+                xy=(65, 270), xycoords='figure points')
+    plt.annotate('Perception',
+                xy=(120, 300), xycoords='figure points')
+    plt.annotate('Rest',
+                xy=(305, 300), xycoords='figure points')
+    plt.annotate('Imagery',
+                xy=(490, 300), xycoords='figure points')
+    
+    plt.ylabel('Pupil size (normalized)')
+    plt.xlabel('Time (s)')
+    plt.title(f"Normalized pupil diameter evolution over time in general population\nRating > {rating}")
+    plt.legend(loc='lower left', frameon=True)
+    plt.show()    
+    
+
+
+#%%
+# =============================================================================
+# Create a long mastersheet and export it to csv 
+# =============================================================================
+dic_all = []
+for index_trial, trial in enumerate(dm_KR.trial_id):
+    print(f'{index_trial+1}/{len(dm_KR.trial_id)}')
+    for ms_trial, pupil_size in enumerate(dm_KR.pupil[index_trial]):
+        # Determine in which phase we are in
+        if ms_trial <= baseline_length_KR:
+            phase = "baseline"
+        elif ms_trial <= baseline_length_KR + stim_length_KR:
+            phase = "perception"
+        elif ms_trial <= baseline_length_KR + stim_length_KR + rest_length_KR:
+            phase = "rest"
+        elif ms_trial <= pupil_length_KR:
+            phase = "imagery"
+            
+            
+        dic_all.append(
+            {'subject_id' : dm_KR.subject_id[index_trial],
+            'subject_session' : dm_KR.subject_session[index_trial],
+            'exp_date' : dm_KR.exp_date[index_trial],
+            'exp_name' : dm_KR.exp_name[index_trial],
+            'trial_id' : trial,
+            'phase' : phase,
+            'time' : ms_trial,            
+            'pupil_size' : pupil_size,
+            'stim_color' : dm_KR.stim_color[index_trial],
+            'stim_orientation' : dm_KR.stim_orientation[index_trial],
+            'rating' : dm_KR.rating[index_trial],
+            'framerate' : dm_KR.framerate[index_trial],
+            'screen_size' : dm_KR.screen_size[index_trial],
+            'background_lum' : dm_KR.background_lum[index_trial],
+            'rest_lum' : dm_KR.rest_lum[index_trial],
+            'fix_cross_lum' : dm_KR.fix_cross_lum[index_trial]
+            }
+        )
+
+print("Creating a dataframe with all data...")
+mastersheet_KR = pd.DataFrame(dic_all)
+
+print(mastersheet_KR)
+
+mastersheet_KR.to_csv(out_of_git_path_KR + '\\KR_tables\\mastersheet_KR.csv')
+# Create a simplified mastersheet to have 2 rows (one per condition) per subject  
+# by computing the mean pupil sizes per phase
+
+
+
+#%%
+
+# Create dataframe with mean pupil size during imagery
+
+dic_imag = []
+for index_pupil, pupil_size in enumerate(dm_KR.imag):
+    dic_imag.append(
+        {'mean_pupil_size' : np.nanmean(pupil_size),
+        'stim_color' : dm_KR.stim_color[index_pupil],
+        'rating' : dm_KR.rating[index_pupil]
+        }
+    )
+
+df = pd.DataFrame(dic_imag)
+print(df)
+df.to_excel(out_of_git_path_KR + '\\KR_tables\\mean_pupil_imag.xlsx')
+
+
+#%%
+
+# =============================================================================
+# Plot the results of the best QMI
+# =============================================================================
+good_qmi = ["KR_S001", "KR_S004", "KR_S009", "KR_S012", "KR_S015", "KR_S017", 
+            "KR_S021", "KR_S022", "KR_S027", "KR_S036", "KR_S037", "KR_S040", 
+            "KR_S046", "KR_S048", "KR_S049"]
+
+dm_KR_qmi = dm_KR_short
+
+low_qmi = []
+for index, subject in enumerate(dm_KR_qmi.subject_id):
+    if subject not in good_qmi:
+        low_qmi.append(index)
+    
+low_qmi.reverse() # Reverse list items to start removing the ones with a bigger index
+for wrong_trial in low_qmi:
+    del dm_KR_qmi[wrong_trial]   
+
+
+# Create plot
+plot.new(size=FIGSIZE)
+plt.ylim()
+plt.xlim(0, pupil_length_KR/1000)
+
+
+# Draw dotted lines on the graph
+plt.axvline(baseline_length_KR/1000, color='black', linestyle=':') # Add vertical line for end of baseline/start of stim
+plt.axvline((baseline_length_KR + stim_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of stim/start of rest
+plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+plt.axvline((baseline_length_KR + stim_length_KR + rest_length_KR)/1000 + 1.5, color='black', linestyle=':') # Add vertical line for end of rest/start of imagery
+plt.axhline(1, color='black', linestyle=':') # Add horizontal line for baseline level
+
+# Add annotations
+plt.annotate('Baseline', rotation=90,
+            xy=(64, 265), xycoords='figure points')
+plt.annotate('Perception',
+            xy=(110, 290), xycoords='figure points')
+plt.annotate('Rest',
+            xy=(305, 290), xycoords='figure points')
+plt.annotate('Imagery',
+            xy=(520, 290), xycoords='figure points')
+
+# Split conditions white vs black
+for stim_color, _dm_KR_short in ops.split(dm_KR_qmi.stim_color):
+    trace(
+        _dm_KR_short.pupil,
+        x=X_KR, 
+        color=blue[1] if stim_color == 'white' else red[1],
+        label='%s condition (N=%d)' % (stim_color, len(_dm_KR_short))
+    )
+
+plt.xlim(17.5,22)
+plt.ylabel('Pupil size (normalized)')
+plt.xlabel('Time (s)')
+plt.title("Normalized pupil diameter evolution over time in higher visualisers")
+plt.legend(loc='lower left', frameon=True)
+plt.savefig(path_KR + '\Graphs\pupil_response_KR_high_qmi.png', 
+            bbox_inches='tight')
+plt.show()
+
+
+#%%
+# =============================================================================
+# # Trying to make a stacked histogram.
+# =============================================================================
+# Blinks during complete experiment 
+new_df = []
+subject_list = []
+for subject in dm_KR_raw.subject_id:
+    if subject not in subject_list:            
+        
+        subject_list.append(subject)
+        dm_KR_subj =  dm_KR_raw.subject_id == {subject}
+        for index, blink_list in enumerate(dm_KR_subj.blinkstlist):
+            new_df.append(
+                {"subject_id" : subject,
+                "blink_count" : sum(1 for _ in blink_list if _ > -1),
+                "trial_id" : dm_KR_subj.trial_id[index] 
+                    }
+                )
+
+
+# Create df with blinks and subjects
+df_blink_KR = pd.DataFrame(new_df)
+# df_blink_KR = df_blink_KR.sort_values('blink_count') # Might have to be removed
+#%% # TO REMOVE ASAP
+# Plot results
+
+
+plt.figure(figsize = FIGSIZE)
+previous = None
+counter = 0
+
+for trial_id, _df_blink_KR_trial in df_blink_KR.groupby(df_blink_KR.trial_id): #PB AROUND HERE
+    
+    # counter += 1
+    
+    # print("previous", previous)
+    # print("length", len(previous2))
+    # print("counter", counter)
+    
+    plt.bar(
+        _df_blink_KR_trial.subject_id,
+        _df_blink_KR_trial.blink_count,
+        bottom = previous,
+        label='Trial ' + str(trial_id)
+    )
+    
+    # print("we add", _df_blink_KR_trial.blink_count, "to", previous)
+    if previous is not None:
+        previous += _df_blink_KR_trial.blink_count
+        print("We are in the if\n")
+
+    else:
+        previous = _df_blink_KR_trial.blink_count
+        print("We are in the else\n")
+
+        plt.ylabel("Number of blinks")
+        plt.xlabel("Subject number")
+        plt.xticks(rotation = 90)
+        plt.title("Number of blinks during the experiment KR")
+        plt.savefig(path_KR + '\\Graphs\\Number of blinks during all experiment.png')
+
+
+# plt.show()
+
+

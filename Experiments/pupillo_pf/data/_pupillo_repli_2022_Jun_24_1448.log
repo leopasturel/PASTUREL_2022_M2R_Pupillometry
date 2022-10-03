@@ -1,0 +1,1352 @@
+29.5072 	INFO 	Loaded monitor calibration from ['2022_02_18 14:27']
+29.5235 	WARNING 	User requested fullscreen with size [1280 1024], but screen is actually [1920, 1080]. Using actual size
+30.9385 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, backendConf=UNKNOWN, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0., 0., 0.]), colorSpace='rgb', depthBits=8, fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x000002162CDD9630>, gamma=None, gammaErrorPolicy='raise', lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x000002162D04D0B8>, multiSample=False, name='window1', numSamples=2, pos=[0.0, 0.0], screen=0, size=array([1920, 1080]), stencilBits=0, stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+30.9399 	EXP 	window1: mouseVisible = True
+30.9399 	EXP 	window1: recordFrameIntervals = False
+31.0566 	EXP 	window1: recordFrameIntervals = True
+31.0986 	WARNING 	t of last frame was 15.82ms (=1/63)
+31.2277 	DEBUG 	Screen (0) actual frame rate measured at 80.22
+31.2277 	EXP 	window1: recordFrameIntervals = False
+33.3076 	INFO 	keyboard.Keyboard is using iohub backend.
+33.6055 	EXP 	Created instruction = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoLog=True, bold=False, color=array([0.65490196, 0.65490196, 0.65490196]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.03, italic=False, languageStyle='LTR', name='instruction', opacity=1, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text=str(...), units='height', win=Window(...), wrapWidth=1.0)
+33.6055 	INFO 	keyboard.Keyboard is using iohub backend.
+33.6363 	EXP 	Created text_train = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoLog=True, bold=False, color=array([0.65490196, 0.65490196, 0.65490196]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.04, italic=False, languageStyle='LTR', name='text_train', opacity=1, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text=str(...), units='height', win=Window(...), wrapWidth=1)
+33.6364 	INFO 	keyboard.Keyboard is using iohub backend.
+33.6449 	EXP 	Created rest = NoiseStim(__class__=<class 'psychopy.visual.noise.NoiseStim'>, autoDraw=False, autoLog=True, blendmode='avg', color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, interpolate=False, mask='none', maskParams=None, name='rest', opacity=1, ori=0.0, phase=array([0., 0.]), pos=array([0., 0.]), rgbPedestal=array([0., 0., 0.]), sf=array([1., 1.]), size=array([2., 2.]), tex='sin', texRes=128, units='norm', win=Window(...))
+33.6496 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+33.6533 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+33.6617 	EXP 	Created fix_cross = ShapeStim(__class__=<class 'psychopy.visual.shape.ShapeStim'>, autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='rgb', contrast=None, depth=-1.0, fillColor=array([-0.2, -0.2, -0.2]), fillColorSpace='rgb', fillRGB=array([-0.2, -0.2, -0.2]), interpolate=True, lineColor=array([-0.2, -0.2, -0.2]), lineColorSpace='rgb', lineRGB=array([-0.2, -0.2, -0.2]), lineWidth=0.2, name='fix_cross', opacity=1, ori=0.0, pos=array([0., 0.]), size=array([0.01, 0.01]), units='height', vertices=ndarray(...), win=Window(...), windingRule=None)
+33.6630 	EXP 	Created stimuli = ShapeStim(__class__=<class 'psychopy.visual.shape.ShapeStim'>, autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='rgb', contrast=None, depth=-2.0, fillColor=array([1, 1, 1]), fillColorSpace='rgb', fillRGB=array([1, 1, 1]), interpolate=True, lineColor=array([1., 1., 1.]), lineColorSpace='rgb', lineRGB=array([1, 1, 1]), lineWidth=1.0, name='stimuli', opacity=1, ori=1.0, pos=array([0., 0.]), size=array([695.65, 695.88]), units='pix', vertices=ndarray(...), win=Window(...), windingRule=None)
+33.9081 	EXP 	Sound start_sound_imag set volume 1.000
+33.9086 	EXP 	Sound end_sound_imag set volume 1.000
+33.9276 	EXP 	Created question_vivid = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoLog=True, bold=False, color=array([0.65490196, 0.65490196, 0.65490196]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='question_vivid', opacity=1, ori=0.0, pos=array([0. , 0.2]), rgb=UNKNOWN, text=str(...), units='height', win=Window(...), wrapWidth=1)
+33.9339 	INFO 	Mouse: using default window
+33.9340 	EXP 	window1: mouseVisible = True
+33.9530 	EXP 	Created vivid = Slider(__class__=<class 'psychopy.visual.slider.Slider'>, autoDraw=False, autoLog=True, borderColor=None, color=None, colorSpace='rgb', depth=-1, fillColor=None, flip=False, font='Open Sans', granularity=1.0, labelHeight=0.03, labelWrapWidth=None, labels=tuple(...), name='vivid', opacity=None, pos=(0, 0), readOnly=False, self=UNKNOWN, size=(0.8, 0.1), startValue=None, style=method-wrapper(...), styleTweaks=method-wrapper(...), ticks=array([1, 2, 3, 4]), units='height', win=Window(...))
+33.9564 	INFO 	keyboard.Keyboard is using iohub backend.
+33.9774 	EXP 	Created text_start = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoLog=True, bold=False, color=array([0.65490196, 0.65490196, 0.65490196]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.04, italic=False, languageStyle='LTR', name='text_start', opacity=1, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text=str(...), units='height', win=Window(...), wrapWidth=1)
+33.9786 	EXP 	Created rest = NoiseStim(__class__=<class 'psychopy.visual.noise.NoiseStim'>, autoDraw=False, autoLog=True, blendmode='avg', color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, interpolate=False, mask='none', maskParams=None, name='rest', opacity=1, ori=0.0, phase=array([0., 0.]), pos=array([0., 0.]), rgbPedestal=array([0., 0., 0.]), sf=array([1., 1.]), size=array([2., 2.]), tex='sin', texRes=128, units='norm', win=Window(...))
+33.9823 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+33.9859 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+33.9885 	EXP 	Created fix_cross = ShapeStim(__class__=<class 'psychopy.visual.shape.ShapeStim'>, autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='rgb', contrast=None, depth=-1.0, fillColor=array([-0.2, -0.2, -0.2]), fillColorSpace='rgb', fillRGB=array([-0.2, -0.2, -0.2]), interpolate=True, lineColor=array([-0.2, -0.2, -0.2]), lineColorSpace='rgb', lineRGB=array([-0.2, -0.2, -0.2]), lineWidth=0.2, name='fix_cross', opacity=1, ori=0.0, pos=array([0., 0.]), size=array([0.01, 0.01]), units='height', vertices=ndarray(...), win=Window(...), windingRule=None)
+33.9897 	EXP 	Created stimuli = ShapeStim(__class__=<class 'psychopy.visual.shape.ShapeStim'>, autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='rgb', contrast=None, depth=-2.0, fillColor=array([1, 1, 1]), fillColorSpace='rgb', fillRGB=array([1, 1, 1]), interpolate=True, lineColor=array([1., 1., 1.]), lineColorSpace='rgb', lineRGB=array([1, 1, 1]), lineWidth=1.0, name='stimuli', opacity=1, ori=1.0, pos=array([0., 0.]), size=array([695.65, 695.88]), units='pix', vertices=ndarray(...), win=Window(...), windingRule=None)
+33.9902 	EXP 	Sound start_sound_imag set volume 1.000
+33.9907 	EXP 	Sound end_sound_imag set volume 1.000
+33.9942 	EXP 	Created question_vivid = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoLog=True, bold=False, color=array([0.65490196, 0.65490196, 0.65490196]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='question_vivid', opacity=1, ori=0.0, pos=array([0. , 0.2]), rgb=UNKNOWN, text=str(...), units='height', win=Window(...), wrapWidth=1)
+33.9989 	INFO 	Mouse: using default window
+33.9989 	EXP 	window1: mouseVisible = True
+34.0110 	EXP 	Created vivid = Slider(__class__=<class 'psychopy.visual.slider.Slider'>, autoDraw=False, autoLog=True, borderColor=None, color=None, colorSpace='rgb', depth=-1, fillColor=None, flip=False, font='Open Sans', granularity=1.0, labelHeight=0.03, labelWrapWidth=None, labels=tuple(...), name='vivid', opacity=None, pos=(0, 0), readOnly=False, self=UNKNOWN, size=(0.8, 0.1), startValue=None, style=method-wrapper(...), styleTweaks=method-wrapper(...), ticks=array([1, 2, 3, 4]), units='height', win=Window(...))
+34.0327 	EXP 	Created text_end = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoLog=True, bold=False, color=array([0.65490196, 0.65490196, 0.65490196]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.06, italic=False, languageStyle='LTR', name='text_end', opacity=1, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text=str(...), units='height', win=Window(...), wrapWidth=1)
+34.0327 	INFO 	keyboard.Keyboard is using iohub backend.
+34.0364 	EXP 	Created CalibrationTarget = TargetStim(__class__=<class 'psychopy.visual.target.TargetStim'>, autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=array([0, 0, 0]), interpolate=True, lineColor=array([-1., -1., -1.]), lineColorSpace='rgb', lineRGB=array([-1, -1, -1]), lineWidth=2.0, name='CalibrationTarget', opacity=1.0, ori=0.0, pos=array([0., 0.]), size=array([0.02, 0.02]), units='height', vertices=ndarray(...), win=Window(...), windingRule=None)
+34.0401 	EXP 	Created CalibrationTargetInner = ShapeStim(__class__=<class 'psychopy.visual.shape.ShapeStim'>, autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='rgb', contrast=None, depth=0, fillColor=array([-1.        ,  0.00392157, -1.        ]), fillColorSpace='rgb', fillRGB=array([-1.        ,  0.00392157, -1.        ]), interpolate=True, lineColor=array([-1., -1., -1.]), lineColorSpace='rgb', lineRGB=array([-1, -1, -1]), lineWidth=2.0, name='CalibrationTargetInner', opacity=1.0, ori=0.0, pos=array([0., 0.]), size=array([0.007, 0.007]), units='height', vertices=ndarray(...), win=Window(...), windingRule=None)
+43.0509 	EXP 	rest: blendmode = 'avg'
+43.0509 	EXP 	rest: mask = None
+43.0509 	EXP 	rest: texRes = 256
+43.0509 	EXP 	rest: noiseType = 'Uniform'
+43.0509 	EXP 	rest: noiseImage = None
+43.0509 	EXP 	rest: noiseElementSize = [0.005]
+43.0509 	EXP 	rest: noiseBaseSf = 8.0
+43.0509 	EXP 	rest: noiseBW = 1.0
+43.0509 	EXP 	rest: noiseBWO = 30.0
+43.0509 	EXP 	rest: noiseFractalPower = 0.0
+43.0509 	EXP 	rest: noiseFilterUpper = 8.0
+43.0509 	EXP 	rest: noiseFilterLower = 1.0
+43.0509 	EXP 	rest: noiseFilterOrder = 0.0
+43.0509 	EXP 	rest: noiseClip = 10.0
+43.0509 	EXP 	rest: filter = None
+43.0509 	EXP 	rest: tex = <class 'numpy.ndarray'>
+43.0509 	EXP 	rest: tex = <class 'numpy.ndarray'>
+43.0509 	EXP 	vivid: autoLog = True
+43.0509 	EXP 	vivid: markerPos = None
+43.0509 	EXP 	vivid: rating = None
+43.0509 	EXP 	vivid: markerPos = None
+43.0509 	EXP 	vivid: contrast = 1.0
+43.0509 	EXP 	vivid: autoLog = True
+43.0509 	EXP 	vivid: styleTweaks = []
+43.0509 	EXP 	vivid: style = 'radio'
+43.0509 	EXP 	vivid: styleTweaks = []
+43.0509 	EXP 	rest: blendmode = 'avg'
+43.0509 	EXP 	rest: mask = None
+43.0509 	EXP 	rest: texRes = 256
+43.0509 	EXP 	rest: noiseType = 'Uniform'
+43.0509 	EXP 	rest: noiseImage = None
+43.0509 	EXP 	rest: noiseElementSize = [0.005]
+43.0509 	EXP 	rest: noiseBaseSf = 8.0
+43.0509 	EXP 	rest: noiseBW = 1.0
+43.0509 	EXP 	rest: noiseBWO = 30.0
+43.0509 	EXP 	rest: noiseFractalPower = 0.0
+43.0509 	EXP 	rest: noiseFilterUpper = 8.0
+43.0509 	EXP 	rest: noiseFilterLower = 1.0
+43.0509 	EXP 	rest: noiseFilterOrder = 0.0
+43.0509 	EXP 	rest: noiseClip = 10.0
+43.0509 	EXP 	rest: filter = None
+43.0509 	EXP 	rest: tex = <class 'numpy.ndarray'>
+43.0509 	EXP 	rest: tex = <class 'numpy.ndarray'>
+43.0509 	EXP 	vivid: autoLog = True
+43.0509 	EXP 	vivid: markerPos = None
+43.0509 	EXP 	vivid: rating = None
+43.0509 	EXP 	vivid: markerPos = None
+43.0509 	EXP 	vivid: contrast = 1.0
+43.0509 	EXP 	vivid: autoLog = True
+43.0509 	EXP 	vivid: styleTweaks = []
+43.0509 	EXP 	vivid: style = 'radio'
+43.0509 	EXP 	vivid: styleTweaks = []
+43.0509 	EXP 	CalibrationTarget: vertices = 'circle'
+43.0509 	EXP 	CalibrationTargetInner: vertices = 'circle'
+43.0517 	EXP 	window1: mouseVisible = False
+43.0654 	EXP 	instruction: autoDraw = True
+47.0631 	DATA 	Keypress: space
+47.0693 	EXP 	instruction: autoDraw = False
+47.0693 	EXP 	text_train: autoDraw = True
+89.4695 	DEBUG 	Read excel file with openpyxl: conditions/conditions_pupillo_train.xlsx
+89.4697 	EXP 	Imported conditions/conditions_pupillo_train.xlsx as conditions, 2 conditions, 2 params
+89.4701 	EXP 	Created sequence: random, trialTypes=2, nReps=1, seed=None
+89.4703 	EXP 	New trial (rep=0, index=0): {'orientation': 180, 'color_rgb': [-1, -1, -1]}
+89.4728 	DATA 	Keypress: space
+89.4768 	EXP 	text_train: autoDraw = False
+89.4768 	EXP 	stimuli: size = (793.2875667429444, 687.2285149401744)
+89.4768 	EXP 	stimuli: ori = 180.0
+90.0772 	EXP 	fix_cross: autoDraw = True
+91.0696 	EXP 	stimuli: autoDraw = True
+96.0638 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.0852 	EXP 	rest: autoDraw = True
+96.0852 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.0852 	EXP 	stimuli: autoDraw = False
+96.0873 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.1021 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.1041 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.1187 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.1208 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.1355 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.1381 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.1526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.1548 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.1692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.1718 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.1859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.1880 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.2025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.2046 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.2193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.2221 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.2363 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.2385 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.2525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.2546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.2691 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.2720 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.2862 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.2893 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.3024 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.3050 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.3196 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.3223 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.3360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.3387 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.3529 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.3555 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.3698 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.3725 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.3860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.3885 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.4026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.4047 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.4193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.4214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.4361 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.4388 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.4529 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.4551 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.4711 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.4741 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.4862 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.4884 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.5026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.5053 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.5193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.5214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.5360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.5382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.5527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.5554 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.5693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.5714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.5859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.5886 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.6028 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.6060 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.6202 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.6228 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.6367 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.6397 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.6524 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.6545 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.6689 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.6715 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.6858 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.6887 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.7024 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.7046 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.7191 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.7218 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.7360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.7387 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.7526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.7553 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.7693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.7721 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.7859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.7880 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.8025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.8046 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.8193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.8215 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.8360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.8381 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.8525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.8546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.8692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.8713 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.8859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.8888 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.9036 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.9062 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.9192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.9213 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.9359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.9388 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.9525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.9553 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.9694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.9715 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+96.9859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+96.9880 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.0027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.0055 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.0192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.0213 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.0359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.0386 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.0526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.0547 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.0692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.0714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.0863 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.0891 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.1023 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.1044 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.1189 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.1219 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.1361 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.1389 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.1522 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.1544 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.1688 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.1709 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.1855 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.1876 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.2021 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.2043 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.2190 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.2216 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.2361 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.2385 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.2528 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.2550 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.2694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.2720 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.2861 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.2892 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.3024 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.3051 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.3194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.3221 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.3361 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.3382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.3526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.3553 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.3693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.3720 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.3858 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.3885 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.4025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.4046 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.4193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.4220 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.4361 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.4382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.4526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.4554 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.4694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.4722 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.4859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.4885 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.5025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.5051 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.5193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.5213 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.5358 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.5379 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.5524 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.5546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.5690 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.5710 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.5858 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.5879 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.6025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.6046 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.6194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.6215 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.6360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.6388 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.6528 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.6559 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.6691 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.6718 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.6862 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.6889 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.7032 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.7061 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.7196 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.7218 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.7364 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.7388 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.7533 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.7564 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.7696 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.7724 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.7861 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.7882 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.8027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.8048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.8194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.8215 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.8362 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.8391 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.8524 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.8546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.8690 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.8711 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.8856 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.8878 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.9023 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.9043 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.9189 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.9210 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.9357 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.9382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.9526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.9554 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.9693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.9720 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+97.9858 	EXP 	rest: tex = <class 'numpy.ndarray'>
+97.9880 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.0026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.0048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.0193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.0214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.0359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.0381 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.0525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.0552 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.0692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.0713 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.0860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.0881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.1027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.1049 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.1193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.1219 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.1363 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.1386 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.1528 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.1550 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.1693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.1719 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.1859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.1881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.2026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.2048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.2193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.2220 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.2359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.2380 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.2527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.2548 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.2693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.2720 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.2861 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.2883 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.3025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.3051 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.3193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.3213 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.3358 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.3381 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.3527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.3549 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.3695 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.3725 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.3859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.3884 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.4025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.4046 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.4193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.4220 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.4359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.4381 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.4526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.4553 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.4694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.4724 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.4859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.4880 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.5027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.5050 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.5194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.5222 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.5359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.5381 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.5528 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.5554 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.5694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.5715 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.5860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.5881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.6027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.6055 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.6195 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.6221 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.6360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.6382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.6528 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.6555 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.6693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.6719 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.6860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.6881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.7029 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.7057 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.7195 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.7228 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.7359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.7381 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.7527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.7548 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.7692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.7714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.7861 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.7889 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.8028 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.8050 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.8194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.8221 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.8360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.8383 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.8527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.8548 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.8695 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.8722 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.8861 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.8883 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.9046 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.9077 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.9195 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.9222 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.9361 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.9382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.9527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.9554 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.9694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.9722 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+98.9862 	EXP 	rest: tex = <class 'numpy.ndarray'>
+98.9884 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.0027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.0048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.0195 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.0223 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.0358 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.0380 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.0525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.0546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.0692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.0713 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.0861 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.0882 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.1027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.1057 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.1192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.1213 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.1360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.1382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.1527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.1557 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.1691 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.1713 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.1860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.1889 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.2025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.2045 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.2192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.2213 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.2360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.2387 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.2529 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.2551 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.2695 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.2717 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.2861 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.2883 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.3027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.3065 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.3192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.3214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.3362 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.3384 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.3527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.3548 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.3693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.3721 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.3861 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.3883 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.4028 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.4049 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.4194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.4216 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.4360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.4381 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.4527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.4563 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.4692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.4714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.4858 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.4879 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.5026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.5047 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.5193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.5223 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.5360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.5381 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.5527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.5555 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.5694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.5726 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.5859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.5885 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.6026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.6055 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.6196 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.6226 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.6359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.6381 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.6527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.6555 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.6693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.6714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.6860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.6887 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.7027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.7056 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.7192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.7213 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.7359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.7389 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.7525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.7546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.7693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.7715 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.7859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.7881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.8029 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.8067 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.8195 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.8222 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.8360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.8387 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.8527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.8551 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.8694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.8716 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.8860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.8888 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.9027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.9054 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.9195 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.9216 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.9361 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.9382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.9526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.9546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.9692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.9713 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+99.9858 	EXP 	rest: tex = <class 'numpy.ndarray'>
+99.9878 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.0026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.0054 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.0194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.0215 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.0357 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.0384 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.0524 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.0551 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.0693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.0715 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.0859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.0887 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.1025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.1046 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.1192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.1214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.1360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.1386 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.1525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.1554 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.1694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.1716 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.1858 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.1885 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.2026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.2047 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.2192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.2214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.2359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.2404 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.2532 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.2556 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.2694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.2722 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.2859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.2887 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.3028 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.3053 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.3191 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.3219 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.3359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.3386 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.3525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.3547 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.3693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.3719 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.3858 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.3880 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.4025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.4050 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.4192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.4214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.4359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.4380 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.4525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.4546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.4692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.4719 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.4865 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.4894 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.5026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.5053 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.5192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.5214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.5359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.5380 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.5525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.5547 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.5692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.5713 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.5859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.5887 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.6026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.6057 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.6193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.6214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.6362 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.6396 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.6526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.6558 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.6691 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.6723 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.6857 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.6888 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.7027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.7050 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.7195 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.7219 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.7359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.7387 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.7526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.7548 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.7692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.7713 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.7858 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.7887 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.8023 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.8047 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.8194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.8216 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.8360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.8382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.8525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.8546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.8692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.8713 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.8862 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.8889 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.9038 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.9068 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.9198 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.9220 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.9359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.9380 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.9525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.9546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.9691 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.9719 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+100.9860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+100.9881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.0025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.0054 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.0192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.0219 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.0359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.0380 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.0525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.0547 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.0692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.0713 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.0860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.0881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.1026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.1048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.1191 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.1212 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.1359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.1388 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.1527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.1548 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.1693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.1714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.1858 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.1886 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.2027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.2048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.2194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.2215 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.2359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.2387 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.2526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.2548 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.2692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.2722 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.2862 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.2889 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.3027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.3048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.3191 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.3218 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.3358 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.3386 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.3528 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.3549 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.3691 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.3719 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.3859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.3887 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.4026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.4048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.4193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.4220 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.4360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.4382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.4527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.4549 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.4693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.4720 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.4859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.4880 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.5025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.5047 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.5192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.5220 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.5359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.5379 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.5525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.5546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.5691 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.5711 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.5857 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.5885 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.6026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.6048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.6194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.6221 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.6359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.6385 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.6526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.6548 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.6693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.6714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.6859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.6888 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.7026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.7048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.7191 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.7212 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.7359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.7389 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.7528 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.7550 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.7693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.7715 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.7857 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.7878 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.8025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.8047 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.8192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.8218 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.8360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.8382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.8528 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.8550 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.8695 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.8721 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.8860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.8892 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.9027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.9048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.9193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.9214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.9361 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.9389 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.9525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.9546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.9693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.9714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+101.9861 	EXP 	rest: tex = <class 'numpy.ndarray'>
+101.9890 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.0024 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.0046 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.0193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.0222 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.0362 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.0387 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.0526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.0549 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.0694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.0722 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.0865 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.0897 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.1026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.1053 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.1194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.1221 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.1359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.1380 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.1526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.1552 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.1695 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.1716 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.1860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.1881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.2028 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.2050 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.2193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.2214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.2359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.2381 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.2527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.2549 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.2694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.2719 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.2864 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.2892 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.3029 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.3050 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.3193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.3214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.3360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.3392 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.3525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.3550 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.3693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.3713 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.3860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.3888 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.4025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.4046 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.4196 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.4218 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.4362 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.4393 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.4524 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.4544 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.4691 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.4712 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.4859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.4881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.5024 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.5051 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.5193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.5214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.5362 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.5395 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.5525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.5546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.5694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.5722 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.5857 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.5879 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.6025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.6047 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.6196 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.6225 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.6362 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.6384 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.6527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.6549 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.6693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.6722 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.6859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.6881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.7027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.7048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.7194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.7215 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.7360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.7381 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.7527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.7549 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.7694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.7715 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.7860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.7883 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.8026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.8053 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.8192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.8214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.8360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.8382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.8528 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.8555 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.8694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.8715 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.8861 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.8883 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.9038 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.9077 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.9199 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.9231 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.9361 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.9383 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.9527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.9549 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.9693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.9714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+102.9860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+102.9891 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.0026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.0062 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.0192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.0220 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.0360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.0382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.0525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.0546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.0692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.0719 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.0862 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.0894 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.1025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.1046 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.1193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.1214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.1359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.1382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.1527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.1554 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.1693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.1714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.1861 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.1882 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.2027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.2049 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.2194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.2215 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.2359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.2381 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.2526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.2546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.2692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.2713 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.2860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.2882 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.3029 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.3058 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.3194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.3215 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.3361 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.3383 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.3528 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.3569 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.3692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.3720 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.3860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.3883 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.4028 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.4056 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.4192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.4218 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.4362 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.4389 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.4525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.4545 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.4692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.4713 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.4859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.4887 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.5025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.5046 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.5192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.5214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.5360 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.5382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.5524 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.5545 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.5694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.5715 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.5860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.5881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.6025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.6046 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.6193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.6223 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.6357 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.6383 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.6525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.6546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.6692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.6714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.6857 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.6878 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.7026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.7054 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.7193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.7214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.7359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.7385 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.7526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.7554 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.7692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.7714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.7859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.7887 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.8024 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.8045 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.8191 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.8214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.8358 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.8385 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.8526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.8548 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.8690 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.8712 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.8857 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.8878 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.9022 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.9043 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.9190 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.9211 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.9356 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.9377 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.9524 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.9545 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.9690 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.9712 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+103.9858 	EXP 	rest: tex = <class 'numpy.ndarray'>
+103.9879 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.0025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.0050 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.0193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.0219 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.0359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.0386 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.0526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.0547 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.0692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.0714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.0860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.0881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.1025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.1046 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.1192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.1222 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.1356 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.1384 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.1524 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.1546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.1693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.1715 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.1859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.1904 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.2028 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.2055 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.2195 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.2228 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.2357 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.2384 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.2525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.2547 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.2693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.2714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.2864 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.2888 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.3026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.3047 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.3194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.3218 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.3359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.3389 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.3526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.3555 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.3690 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.3711 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.3856 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.3884 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.4026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.4056 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.4191 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.4212 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.4358 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.4386 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.4527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.4549 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.4691 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.4718 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.4860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.4887 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.5026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.5047 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.5193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.5215 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.5359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.5387 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.5525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.5547 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.5693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.5720 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.5858 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.5879 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.6024 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.6045 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.6194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.6216 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.6361 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.6382 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.6525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.6546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.6692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.6719 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.6859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.6883 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.7025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.7051 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.7194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.7221 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.7357 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.7378 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.7524 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.7546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.7690 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.7712 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.7857 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.7878 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.8024 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.8051 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.8193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.8215 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.8359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.8386 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.8525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.8546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.8692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.8715 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.8858 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.8886 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.9025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.9047 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.9211 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.9245 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.9362 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.9384 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.9527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.9549 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.9693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.9714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+104.9859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+104.9888 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.0025 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.0046 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.0191 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.0218 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.0359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.0379 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.0526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.0547 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.0690 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.0716 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.0864 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.0887 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.1026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.1048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.1192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.1219 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.1359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.1380 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.1526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.1546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.1691 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.1717 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.1860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.1882 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.2027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.2048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.2194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.2223 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.2357 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.2379 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.2524 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.2552 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.2692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.2718 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.2859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.2880 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.3026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.3048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.3193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.3217 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.3359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.3387 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.3528 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.3550 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.3692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.3714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.3860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.3887 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.4026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.4055 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.4193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.4214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.4361 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.4388 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.4527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.4549 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.4695 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.4720 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.4862 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.4884 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.5027 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.5049 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.5192 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.5213 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.5359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.5388 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.5528 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.5549 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.5693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.5715 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.5861 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.5882 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.6024 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.6045 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.6194 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.6221 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.6364 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.6393 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.6525 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.6546 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.6692 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.6722 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.6860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.6881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.7028 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.7050 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.7193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.7221 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.7359 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.7380 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.7526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.7547 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.7694 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.7715 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.7859 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.7881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.8026 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.8048 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.8196 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.8227 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.8363 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.8394 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.8526 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.8553 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.8693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.8739 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.8864 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.8909 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.9030 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.9053 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.9196 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.9225 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.9358 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.9380 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.9527 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.9549 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.9693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.9723 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+105.9860 	EXP 	rest: tex = <class 'numpy.ndarray'>
+105.9881 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+106.0028 	EXP 	rest: tex = <class 'numpy.ndarray'>
+106.0056 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+106.0193 	EXP 	rest: tex = <class 'numpy.ndarray'>
+106.0214 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+106.0378 	EXP 	rest: tex = <class 'numpy.ndarray'>
+106.0406 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+106.0529 	EXP 	rest: tex = <class 'numpy.ndarray'>
+106.0550 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+106.0693 	EXP 	rest: tex = <class 'numpy.ndarray'>
+106.0714 	DEPRECATION 	Requiring a square power of two (e.g. 16 x 16, 256 x 256) texture but didn't receive one
+106.0861 	EXP 	rest: tex = <class 'numpy.ndarray'>
+106.0976 	EXP 	rest: autoDraw = False
+107.0732 	EXP 	Sound start_sound_imag started
+107.5768 	EXP 	Sound start_sound_imag reached end of file
+111.5686 	EXP 	Sound end_sound_imag started
+112.0667 	EXP 	Sound end_sound_imag stopped
+112.0824 	EXP 	fix_cross: autoDraw = False
+112.9658 	EXP 	window1: mouseVisible = True
+112.9900 	EXP 	rest: autoDraw = False
+112.9900 	EXP 	fix_cross: autoDraw = False
+112.9900 	EXP 	stimuli: autoDraw = False
+112.9900 	EXP 	vivid: markerPos = None
+112.9900 	EXP 	vivid: markerPos = None
+112.9900 	EXP 	vivid: rating = None
+112.9900 	EXP 	question_vivid: autoDraw = True
+112.9900 	EXP 	vivid: autoDraw = True
+114.8996 	DATA 	Mouse: Left button down, pos=(1113,535)
+114.9111 	EXP 	vivid: markerPos = 3.0312499962747097
+114.9231 	EXP 	vivid: markerPos = 3.0312499962747097
+114.9357 	EXP 	vivid: markerPos = 3.0312499962747097
+114.9505 	EXP 	vivid: markerPos = 3.0312499962747097
+114.9690 	EXP 	vivid: markerPos = 3.0312499962747097
+114.9707 	DATA 	Mouse:  Left button up, pos=(1113,535)
+114.9860 	EXP 	vivid: markerPos = 3.0
+114.9860 	EXP 	vivid: rating = 3.0
+114.9868 	EXP 	window1: mouseVisible = False
+114.9887 	EXP 	New trial (rep=0, index=1): {'orientation': 90, 'color_rgb': [1, 1, 1]}
+114.9950 	EXP 	question_vivid: autoDraw = False
+114.9950 	EXP 	vivid: autoDraw = False
+114.9950 	EXP 	stimuli: size = (793.2875667429444, 687.2285149401744)
+114.9950 	EXP 	stimuli: ori = 90.0
+115.5860 	EXP 	fix_cross: autoDraw = True
+116.5858 	EXP 	stimuli: autoDraw = True
+118.0127 	DATA 	Keypress: escape
+118.1789 	EXP 	window1: mouseVisible = True
+118.1789 	DEBUG 	Saving data for pupillo_repli ExperimentHandler
+118.1801 	INFO 	saved data to C:\Users\lepas\stuffs\University\Master\M2 sciences co\S2 Stage aphantasie\Experiment\PASTUREL_2022\Experiments\pupillo_pf\data/_pupillo_repli_2022_Jun_24_1448.psydat
+118.1810 	INFO 	saved data to 'C:\\Users\\lepas\\stuffs\\University\\Master\\M2 sciences co\\S2 Stage aphantasie\\Experiment\\PASTUREL_2022\\Experiments\\pupillo_pf\\data/_pupillo_repli_2022_Jun_24_1448.csv'

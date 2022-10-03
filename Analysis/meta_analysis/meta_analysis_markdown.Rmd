@@ -1,0 +1,1026 @@
+---
+title: "meta_analysis"
+author: "Leo Pasturel"
+date: "10/05/2022"
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    theme: united
+    toc_float: true
+    number_sections: true
+    highlight: tango
+    fig_caption: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Import libraries
+```{r import-libraries}
+library(readxl)
+library(readr)
+library(beanplot)
+library(tidyverse)
+library(GGally)
+library(ggpmisc)
+library(gridExtra)
+library(fmsb)
+# devtools::install_github("ricardo-bion/ggradar")
+library(ggradar)
+
+# devtools::install_github("ricardo-bion/ggradar")
+```
+
+
+Import datasets 
+```{r import-datasets}
+KR_df <- read_excel("C:/Users/lepas/stuffs/University/Master/M2 sciences co/S2 Stage aphantasie/Experiment/KR_tables/subject_recap_KR_regress.xlsx")
+IF_df <- read_excel("C:/Users/lepas/stuffs/University/Master/M2 sciences co/S2 Stage aphantasie/Experiment/IF_tables/subject_recap_IF_regress.xlsx")
+QMI_df <- read_csv("C:/Users/lepas/stuffs/University/Master/M2 sciences co/S2 Stage aphantasie/Experiment/pupillometry_M2SCCO/Analysis/QMI/qmi_results_summary.csv")
+```
+
+
+Create new columns with n random variables for the beanplots (n = Nbr of phase)
+```{r new-phase-col}
+KR_df$phase_KR_random <- sample(1:4,replace=T, size = nrow(KR_df))
+IF_df$phase_IF_random <- sample(1:6,replace=T, size = nrow(IF_df))
+```
+
+
+Create sub-datasets with only mean ratings > 2 or mean rating > 3
+```{r sub-datasets}
+KR_df_2 <- KR_df %>%
+  filter(mean_rating >= 2)
+KR_df_3 <- KR_df %>%
+  filter(mean_rating >= 3)
+
+IF_df_2 <- IF_df %>%
+  filter(mean_rating >= 2)
+IF_df_3 <- IF_df %>%
+  filter(mean_rating >= 3)
+```
+
+
+Create sub-datasets with only white or only black conditions and subtract values from one by the other.
+```{r sub-datasets2}
+KR_df_w <- KR_df %>%
+  filter(stim_color == "white")
+KR_df_b <- KR_df %>%
+  filter(stim_color == "black")
+KR_df_dif_imag = KR_df_w$mean_pupil_size_imagery_4000ms - KR_df_b$mean_pupil_size_imagery_4000ms
+KR_df_mean_rating = (KR_df_w$mean_rating + KR_df_b$mean_rating) /2
+
+IF_df_w <- IF_df %>%
+  filter(stim_color == "white")
+IF_df_b <- IF_df %>%
+  filter(stim_color == "black")
+IF_df_dif_imag = IF_df_w$mean_pupil_size_imagery_4000ms - IF_df_b$mean_pupil_size_imagery_4000ms
+IF_df_mean_rating = (IF_df_w$mean_rating + IF_df_b$mean_rating) /2
+
+```
+
+Add jitter in black white condition to be able to draw proper jittered path plots later on.
+```{r}
+KR_df_wb <- KR_df
+KR_df_wb$stim_color[KR_df_wb$stim_color=="white"] <- 1
+KR_df_wb$stim_color[KR_df_wb$stim_color=="black"] <- 2
+KR_df_wb$stim_color_j <- jitter(as.numeric(KR_df_wb$stim_color), amount = 0.05)
+
+IF_df_wb <- IF_df
+IF_df_wb$stim_color[IF_df_wb$stim_color=="white"] <- 1
+IF_df_wb$stim_color[IF_df_wb$stim_color=="black"] <- 2
+IF_df_wb$stim_color_j <- jitter(as.numeric(IF_df_wb$stim_color), amount = 0.05)
+
+```
+
+
+## Comparing data by condition and by phase (KR) 
+
+The case of KR on all subjects
+```{r KR_rating_all, echo=FALSE}
+# Create the beanplot frame
+allplot <- beanplot(mean_pupil_size_perception_1000ms ~ phase_KR_random, data = KR_df, 
+                    what=c(F,F,F,F), show.names=F, ylim = c(0.45,1.5),
+                    main = "Beanplot of mean pupil diameter during\ndifferent phases of KR", 
+                    xlab = "Phase", ylab = "Mean pupil diameter (Normalized)")
+
+# Add the baseline phase
+beanplot(mean_pupil_size_baseline_500ms ~ stim_color, data = KR_df, 
+         boxwex = 0.4, at = 1, add = TRUE, names = "baseline",
+         what=c(T,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the perception phase
+beanplot(mean_pupil_size_perception_1000ms ~ stim_color, data = KR_df, 
+         boxwex = 0.4, at = 2, add = TRUE, names = "perception",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the rest phase
+beanplot(mean_pupil_size_rest_1000ms ~ stim_color, data = KR_df, 
+         boxwex = 0.4, at = 3, add = TRUE, names = "rest",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the imagery phase
+beanplot(mean_pupil_size_imagery_4000ms ~ stim_color, data = KR_df, 
+         boxwex = 0.4, at = 4, add = TRUE, names = "imagery",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the legend
+legend("bottomleft", bty="n",c("Dark condition", "Bright condition"),
+       fill = c("black", "lightgrey"))
+```
+
+The case of KR on subjects with a mean rating > 2
+```{r KR_rating_2, echo=FALSE, include=FALSE}
+# Create the beanplot frame
+allplot <- beanplot(mean_pupil_size_perception_1000ms ~ phase_KR_random, data = KR_df_2, 
+                    what=c(F,F,F,F), show.names=F, ylim = c(0.45,1.5),
+                    main = "Beanplot of mean pupil diameter during\ndifferent phases of KR\nRating > 2", 
+                    xlab = "Phase", ylab = "Mean pupil diameter (Normalized)")
+
+# Add the baseline phase
+beanplot(mean_pupil_size_baseline_500ms ~ stim_color, data = KR_df_2, 
+         boxwex = 0.4, at = 1, add = TRUE, names = "baseline",
+         what=c(T,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the perception phase
+beanplot(mean_pupil_size_perception_1000ms ~ stim_color, data = KR_df_2, 
+         boxwex = 0.4, at = 2, add = TRUE, names = "perception",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the rest phase
+beanplot(mean_pupil_size_rest_1000ms ~ stim_color, data = KR_df_2, 
+         boxwex = 0.4, at = 3, add = TRUE, names = "rest",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the imagery phase
+beanplot(mean_pupil_size_imagery_4000ms ~ stim_color, data = KR_df_2, 
+         boxwex = 0.4, at = 4, add = TRUE, names = "imagery",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the legend
+legend("bottomleft", bty="n",c("Dark condition", "Bright condition"),
+       fill = c("black", "lightgrey"))
+```
+
+The case of KR on subjects with a mean rating > 3
+```{r KR_rating_3, echo=FALSE, include=FALSE}
+# Create the beanplot frame
+allplot <- beanplot(mean_pupil_size_perception_1000ms ~ phase_KR_random, data = KR_df_3, 
+                    what=c(F,F,F,F), show.names=F, ylim = c(0.45,1.5),
+                    main = "Beanplot of mean pupil diameter during\ndifferent phases of KR\nRating > 3", 
+                    xlab = "Phase", ylab = "Mean pupil diameter (Normalized)")
+
+# Add the baseline phase
+beanplot(mean_pupil_size_baseline_500ms ~ stim_color, data = KR_df_3, 
+         boxwex = 0.4, at = 1, add = TRUE, names = "baseline",
+         what=c(T,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the perception phase
+beanplot(mean_pupil_size_perception_1000ms ~ stim_color, data = KR_df_3, 
+         boxwex = 0.4, at = 2, add = TRUE, names = "perception",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the rest phase
+beanplot(mean_pupil_size_rest_1000ms ~ stim_color, data = KR_df_3, 
+         boxwex = 0.4, at = 3, add = TRUE, names = "rest",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the imagery phase
+beanplot(mean_pupil_size_imagery_4000ms ~ stim_color, data = KR_df_2, 
+         boxwex = 0.4, at = 4, add = TRUE, names = "imagery",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the legend
+legend("bottomleft", bty="n",c("Dark condition", "Bright condition"),
+       fill = c("black", "lightgrey"))
+```
+
+
+
+## Comparing data by condition and by phase (IF)
+
+The case of IF on all subjects
+```{r IF_rating_all, echo=FALSE}
+# Create the beanplot frame
+allplot <- beanplot(mean_pupil_size_perception_1000ms ~ phase_IF_random, data = IF_df, 
+                    what=c(F,F,F,F), show.names=F, ylim = c(0.45,1.5),
+                    main = "Beanplot of mean pupil diameter during\ndifferent phases of IF", 
+                    xlab = "Phase", ylab = "Mean pupil diameter (Normalized)")
+
+# Add the baseline phase
+beanplot(mean_pupil_size_baseline_500ms ~ stim_color, data = IF_df, 
+         boxwex = 0.4, at = 1, add = TRUE, names = "baseline",
+         what=c(T,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the imagery phase
+beanplot(mean_pupil_size_imagery_4000ms ~ stim_color, data = IF_df, 
+         boxwex = 0.4, at = 2, add = TRUE, names = "imagery",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the first rest phase
+beanplot(mean_pupil_size_rest1_1000ms ~ stim_color, data = IF_df, 
+         boxwex = 0.4, at = 3, add = TRUE, names = "rest_1",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the perception phase
+beanplot(mean_pupil_size_perception_1000ms ~ stim_color, data = IF_df, 
+         boxwex = 0.4, at = 4, add = TRUE, names = "perception",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the second rest phase
+beanplot(mean_pupil_size_rest2_1000ms ~ stim_color, data = IF_df, 
+         boxwex = 0.4, at = 5, add = TRUE, names = "rest_2",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the second rest phase
+beanplot(mean_pupil_size_rest2_3000ms ~ stim_color, data = IF_df, 
+         boxwex = 0.4, at = 6, add = TRUE, names = "rest_2.2",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+
+
+
+# Add the legend
+legend("bottomleft", bty="n",c("Dark condition", "Bright condition"),
+       fill = c("black", "lightgrey"))
+```
+
+The case of IF on subjects with a mean rating > 2
+```{r IF_rating_2, echo=FALSE, include=FALSE}
+# Create the beanplot frame
+allplot <- beanplot(mean_pupil_size_perception_1000ms ~ phase_IF_random, data = IF_df_2, 
+                    what=c(F,F,F,F), show.names=F, ylim = c(0.45,1.5),
+                    main = "Beanplot of mean pupil diameter during\ndifferent phases of IF\nRating > 2", 
+                    xlab = "Phase", ylab = "Mean pupil diameter (Normalized)")
+
+# Add the baseline phase
+beanplot(mean_pupil_size_baseline_500ms ~ stim_color, data = IF_df_2, 
+         boxwex = 0.4, at = 1, add = TRUE, names = "baseline",
+         what=c(T,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the imagery phase
+beanplot(mean_pupil_size_imagery_4000ms ~ stim_color, data = IF_df_2, 
+         boxwex = 0.4, at = 2, add = TRUE, names = "imagery",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the first rest phase
+beanplot(mean_pupil_size_rest1_1000ms ~ stim_color, data = IF_df_2, 
+         boxwex = 0.4, at = 3, add = TRUE, names = "rest_1",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the perception phase
+beanplot(mean_pupil_size_perception_1000ms ~ stim_color, data = IF_df_2, 
+         boxwex = 0.4, at = 4, add = TRUE, names = "perception",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the second rest phase
+beanplot(mean_pupil_size_rest2_1000ms ~ stim_color, data = IF_df_2, 
+         boxwex = 0.4, at = 5, add = TRUE, names = "rest_2",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the second rest phase
+beanplot(mean_pupil_size_rest2_3000ms ~ stim_color, data = IF_df_2, 
+         boxwex = 0.4, at = 6, add = TRUE, names = "rest_2.2",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+
+
+
+# Add the legend
+legend("bottomleft", bty="n",c("Dark condition", "Bright condition"),
+       fill = c("black", "lightgrey"))
+```
+
+The case of IF on subjects with a mean rating > 3
+```{r IF_rating_3, echo=FALSE, include=FALSE}
+# Create the beanplot frame
+allplot <- beanplot(mean_pupil_size_perception_1000ms ~ phase_IF_random, data = IF_df_3, 
+                    what=c(F,F,F,F), show.names=F, ylim = c(0.45,1.5),
+                    main = "Beanplot of mean pupil diameter during\ndifferent phases of IF\nRating > 3", 
+                    xlab = "Phase", ylab = "Mean pupil diameter (Normalized)")
+
+# Add the baseline phase
+beanplot(mean_pupil_size_baseline_500ms ~ stim_color, data = IF_df_3, 
+         boxwex = 0.4, at = 1, add = TRUE, names = "baseline",
+         what=c(T,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the imagery phase
+beanplot(mean_pupil_size_imagery_4000ms ~ stim_color, data = IF_df_3, 
+         boxwex = 0.4, at = 2, add = TRUE, names = "imagery",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the first rest phase
+beanplot(mean_pupil_size_rest1_1000ms ~ stim_color, data = IF_df_3, 
+         boxwex = 0.4, at = 3, add = TRUE, names = "rest_1",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the perception phase
+beanplot(mean_pupil_size_perception_1000ms ~ stim_color, data = IF_df_3, 
+         boxwex = 0.4, at = 4, add = TRUE, names = "perception",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the second rest phase
+beanplot(mean_pupil_size_rest2_1000ms ~ stim_color, data = IF_df_3, 
+         boxwex = 0.4, at = 5, add = TRUE, names = "rest_2",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+# Add the second rest phase
+beanplot(mean_pupil_size_rest2_3000ms ~ stim_color, data = IF_df_3, 
+         boxwex = 0.4, at = 6, add = TRUE, names = "rest_2.2",
+         what=c(F,T,T,F), side = "b", col = list("grey20", "grey75"),
+         bw = allplot$bw, wd = allplot$wd, beanlines = "quantiles")
+
+
+
+
+# Add the legend
+legend("bottomleft", bty="n",c("Dark condition", "Bright condition"),
+       fill = c("black", "lightgrey"))
+```
+
+
+# Looking at more data
+
+```{r rating-pupil}
+
+ggplot() +
+  geom_point(aes(x = KR_df_mean_rating, y = KR_df_dif_imag)) +
+  geom_point(aes(x = mean(KR_df_mean_rating), y = mean(KR_df_dif_imag), color = 'red')) +
+  theme_bw() +
+  xlim(1,4) +
+  ylim(-0.15,0.10) +
+  labs(title = "Difference in pupil diameter during imagery for KR", x = "Mean rating", y = "Pupil diameter difference between conditions") 
+
+ggplot() +
+  geom_point(aes(x = IF_df_mean_rating, y = IF_df_dif_imag)) +
+  geom_point(aes(x = mean(IF_df_mean_rating), y = mean(IF_df_dif_imag), color = 'red')) +
+  theme_bw() +
+  xlim(1,4) +
+  ylim(-0.15,0.10) +
+  labs(title = "Difference in pupil diameter during imagery for IF", x = "Mean rating", y = "Pupil diameter difference between conditions") 
+
+```
+
+!!! Mean mean_rating is 2.62, std = 0.08 for KR and 2.23, std = 0.09 for IF !!!
+
+
+```{r stim-pupil_baseline}
+
+ggplot(KR_df_wb, aes(x = stim_color, y = mean_pupil_size_baseline_500ms)) +
+  geom_boxplot(outlier.alpha = 0) +
+  geom_path(aes(x = stim_color_j, group = factor(subject_id)), alpha = 0.7, colour = "grey70") +
+  geom_point(aes(x = stim_color_j), color = "grey50", alpha = 0.7) +
+  theme_bw() +
+  scale_x_discrete(labels = c("White", "Black")) +
+  labs(title = "Mean pupil diameter during baseline for KR", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+
+ggplot(IF_df_wb, aes(x = stim_color, y = mean_pupil_size_baseline_500ms)) +
+  geom_boxplot(outlier.alpha = 0) +
+  geom_path(aes(x = stim_color_j, group = factor(subject_id)), alpha = 0.7, colour = "grey70") +
+  geom_point(aes(x = stim_color_j), color = "grey50", alpha = 0.7) +
+  theme_bw() +
+  scale_x_discrete(labels = c("White", "Black")) +
+  labs(title = "Mean pupil diameter during baseline for IF", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+```
+
+```{r stim-pupil_perception}
+
+ggplot(KR_df_wb, aes(x = stim_color, y = mean_pupil_size_perception_1000ms)) +
+  geom_boxplot(outlier.alpha = 0) +
+  geom_path(aes(x = stim_color_j, group = factor(subject_id)), alpha = 0.7, colour = "grey70") +
+  geom_point(aes(x = stim_color_j), color = "grey50", alpha = 0.7) +
+  theme_bw() +
+  scale_x_discrete(labels = c("White", "Black")) +
+  labs(title = "Mean pupil diameter during perception for KR", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+
+ggplot(IF_df_wb, aes(x = stim_color, y = mean_pupil_size_perception_1000ms)) +
+  geom_boxplot(outlier.alpha = 0) +
+  geom_path(aes(x = stim_color_j, group = factor(subject_id)), alpha = 0.7, colour = "grey70") +
+  geom_point(aes(x = stim_color_j), color = "grey50", alpha = 0.7) +
+  theme_bw() +
+  scale_x_discrete(labels = c("White", "Black")) +
+  labs(title = "Mean pupil diameter during perception for IF", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+```
+
+```{r stim-pupil_imag}
+
+ggplot(KR_df_wb, aes(x = stim_color, y = mean_pupil_size_imagery_4000ms)) +
+  geom_boxplot(outlier.alpha = 0) +
+  geom_path(aes(x = stim_color_j, group = factor(subject_id)), alpha = 0.7, colour = "grey70") +
+  geom_point(aes(x = stim_color_j), color = "grey50", alpha = 0.7) +
+  theme_bw() +
+  scale_x_discrete(labels = c("White", "Black")) +
+  labs(title = "Mean pupil diameter during imagery for KR", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+
+ggplot(IF_df_wb, aes(x = stim_color, y = mean_pupil_size_imagery_4000ms)) +
+  geom_boxplot(outlier.alpha = 0) +
+  geom_path(aes(x = stim_color_j, group = factor(subject_id)), alpha = 0.7, colour = "grey70") +
+  geom_point(aes(x = stim_color_j), color = "grey50", alpha = 0.7) +
+  theme_bw() +
+  scale_x_discrete(labels = c("White", "Black")) +
+  labs(title = "Mean pupil diameter during imagery for IF", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+```
+
+```{r stim-pupil_rest}
+
+ggplot(KR_df_wb, aes(x = stim_color, y = mean_pupil_size_rest_1000ms)) +
+  geom_boxplot(outlier.alpha = 0) +
+  geom_path(aes(x = stim_color_j, group = factor(subject_id)), alpha = 0.7, colour = "grey70") +
+  geom_point(aes(x = stim_color_j), color = "grey50", alpha = 0.7) +
+  theme_bw() +
+  scale_x_discrete(labels = c("White", "Black")) +
+  labs(title = "Mean pupil diameter during rest for KR", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+
+ggplot(IF_df_wb, aes(x = stim_color, y = mean_pupil_size_rest1_1000ms)) +
+  geom_boxplot(outlier.alpha = 0) +
+  geom_path(aes(x = stim_color_j, group = factor(subject_id)), alpha = 0.7, colour = "grey70") +
+  geom_point(aes(x = stim_color_j), color = "grey50", alpha = 0.7) +
+  theme_bw() +
+  scale_x_discrete(labels = c("White", "Black")) +
+  labs(title = "Mean pupil diameter during first rest for IF", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+ggplot(IF_df_wb, aes(x = stim_color, y = mean_pupil_size_rest2_1000ms)) +
+  geom_boxplot(outlier.alpha = 0) +
+  geom_path(aes(x = stim_color_j, group = factor(subject_id)), alpha = 0.7, colour = "grey70") +
+  geom_point(aes(x = stim_color_j), color = "grey50", alpha = 0.7) +
+  theme_bw() +
+  scale_x_discrete(labels = c("White", "Black")) +
+  labs(title = "Mean pupil diameter during second rest for IF", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+```
+
+
+# Draw path plots
+
+```{r path-plot, include=FALSE}
+ggplot(KR_df, aes(x=stim_color, y=mean_pupil_size_imagery_4000ms)) +
+  geom_path(aes(color = subject_id, group = factor(subject_id))) +
+  geom_dotplot(aes(fill = subject_id), binaxis="y", binwidth = .01, stackdir = "centerwhole") +
+  theme_bw() +
+  labs(title = "Mean pupil diameter during imagery for KR", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+ggplot(KR_df_2, aes(x=stim_color, y=mean_pupil_size_imagery_4000ms)) +
+  geom_path(aes(color = subject_id, group = factor(subject_id))) +
+  geom_dotplot(aes(fill = subject_id), binaxis="y", binwidth = .01, stackdir = "centerwhole") +
+  theme_bw() +
+  labs(title = "Mean pupil diameter during imagery for KR\nRating > 2", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+ggplot(KR_df_3, aes(x=stim_color, y=mean_pupil_size_imagery_4000ms)) +
+  geom_path(aes(color = subject_id, group = factor(subject_id))) +
+  geom_dotplot(aes(fill = subject_id), binaxis="y", binwidth = .01, stackdir = "centerwhole") +
+  geom_smooth(method=lm, se=FALSE, col='red', size=2) + 
+  theme_bw() +
+  labs(title = "Mean pupil diameter during imagery for KR\nRating > 3", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+
+ggplot(IF_df, aes(x=stim_color, y=mean_pupil_size_imagery_4000ms)) +
+  geom_path(aes(color = subject_id, group = factor(subject_id))) +
+  geom_dotplot(aes(fill = subject_id), binaxis="y", binwidth = .01, stackdir = "centerwhole") +
+  theme_bw() +
+  labs(title = "Mean pupil diameter during imagery for IF", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+ggplot(IF_df_2, aes(x=stim_color, y=mean_pupil_size_imagery_4000ms)) +
+  geom_path(aes(color = subject_id, group = factor(subject_id))) +
+  geom_dotplot(aes(fill = subject_id), binaxis="y", binwidth = .01, stackdir = "centerwhole") +
+  theme_bw() +
+  labs(title = "Mean pupil diameter during imagery for IF\nRating > 2", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+ggplot(IF_df_3, aes(x=stim_color, y=mean_pupil_size_imagery_4000ms)) +
+  geom_path(aes(color = subject_id, group = factor(subject_id))) +
+  geom_dotplot(aes(fill = subject_id), binaxis="y", binwidth = .01, stackdir = "centerwhole") +
+  theme_bw() +
+  labs(title = "Mean pupil diameter during imagery for IF\nRating > 3", x = "Condition", y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+
+  
+```
+
+Removing datapoints where only one condition was rated > 2 or > 3.
+Start by creating a new function
+
+```{r function-double, include=FALSE}
+keep_double <- function(df){
+  previous_subj_id <- ""
+  list_double <- list()
+  
+  for (subject in df$subject_id) {
+    
+    if (previous_subj_id == subject) {
+      list_double <- list_double[-length(list_double)]
+      list_double <- append(list_double, "both")
+      list_double <- append(list_double, "both")
+    }
+    else {
+      list_double <- append(list_double, "single")
+    }
+    previous_subj_id <- subject
+  }
+
+  df$both <- list_double
+  
+  df_both <- df %>%
+    filter(both == "both")
+  
+  return(df_both)
+}
+```
+
+Then apply it to your dataframes
+```{r remove-single-data}
+KR_df_2_both = keep_double(KR_df_2)
+KR_df_3_both = keep_double(KR_df_3)
+
+IF_df_2_both = keep_double(IF_df_2)
+IF_df_3_both = keep_double(IF_df_3)
+
+```
+
+
+
+
+```{r redraw-path-plot2, include = FALSE}
+# Drawing path&dot plot
+ggplot(KR_df_2_both, aes(x=stim_color, y=mean_pupil_size_imagery_4000ms)) +
+  geom_path(aes(color = subject_id, group = factor(subject_id))) +
+  geom_dotplot(aes(fill = subject_id), binaxis="y", binwidth = .01, stackdir = "centerwhole") +
+  geom_segment(aes(x = "black", y = mean((KR_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms),
+                   xend = "white", yend = mean((KR_df_2_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms),
+                   linetype="Average trend"), color = "red", size = 2) +
+  #Add error bars
+  geom_segment(aes(x = "black", y = mean((KR_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms - sd((KR_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((KR_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms))),
+                   xend = "black", yend = mean((KR_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms + sd((KR_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((KR_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)))),
+               color = "red", size = 2) +
+  
+  geom_segment(aes(x = "white", y = mean((KR_df_2_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms - sd((KR_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((KR_df_2_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms))),
+                   xend = "white", yend = mean((KR_df_2_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms + sd((KR_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((KR_df_2_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms)))),
+               color = "red", size = 2) +
+  
+  geom_segment(aes(x = stim_color, y = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                   xend = stim_color, yend = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+               color = subject_id), lineend = "square") +
+
+  geom_segment(data = KR_df_2_both%>%filter(stim_color=="black"), 
+                  aes(x = 1-0.03, y = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  xend = 1+0.03, yend = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  color = subject_id)) +
+  geom_segment(data = KR_df_2_both%>%filter(stim_color=="black"), 
+               aes(x = 1-0.03, y = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   xend = 1+0.03, yend = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   color = subject_id)) +
+  
+  geom_segment(data = KR_df_2_both%>%filter(stim_color=="white"), 
+                  aes(x = 2-0.03, y = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  xend = 2+0.03, yend = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  color = subject_id)) +
+  geom_segment(data = KR_df_2_both%>%filter(stim_color=="white"), 
+               aes(x = 2-0.03, y = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   xend = 2+0.03, yend = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   color = subject_id)) +
+  scale_linetype_manual("", values=c("dashed")) +
+  theme_bw() +
+  labs(title = "Mean pupil diameter during imagery for KR\nRating > 2", x = "Condition", 
+       y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+
+
+ggplot(IF_df_2_both, aes(x=stim_color, y=mean_pupil_size_imagery_4000ms)) +
+  geom_path(aes(color = subject_id, group = factor(subject_id))) +
+  geom_dotplot(aes(fill = subject_id), binaxis="y", binwidth = .01, stackdir = "centerwhole") +
+  
+  geom_segment(aes(x = "black", y = mean((IF_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms),
+                   xend = "white", yend = mean((IF_df_2_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms),
+                   linetype="Average trend"), color = "red", size = 2) +
+  #Add error bars
+    geom_segment(aes(x = "black", y = mean((IF_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms - sd((IF_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((IF_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms))),
+                   xend = "black", yend = mean((KR_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms + sd((KR_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((IF_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)))),
+               color = "red", size = 2) +
+  
+  geom_segment(aes(x = "white", y = mean((IF_df_2_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms - sd((IF_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((IF_df_2_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms))),
+                   xend = "white", yend = mean((IF_df_2_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms + sd((IF_df_2_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((IF_df_2_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms)))),
+               color = "red", size = 2) +
+  
+  geom_segment(aes(x = stim_color, y = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                   xend = stim_color, yend = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+               color = subject_id), lineend = "square") +
+
+  geom_segment(data = IF_df_2_both%>%filter(stim_color=="black"), 
+                  aes(x = 1-0.03, y = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  xend = 1+0.03, yend = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  color = subject_id)) +
+  geom_segment(data = IF_df_2_both%>%filter(stim_color=="black"), 
+               aes(x = 1-0.03, y = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   xend = 1+0.03, yend = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   color = subject_id)) +
+  
+  geom_segment(data = IF_df_2_both%>%filter(stim_color=="white"), 
+                  aes(x = 2-0.03, y = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  xend = 2+0.03, yend = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  color = subject_id)) +
+  geom_segment(data = IF_df_2_both%>%filter(stim_color=="white"), 
+               aes(x = 2-0.03, y = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   xend = 2+0.03, yend = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   color = subject_id)) +
+  scale_linetype_manual("", values=c("dashed")) +
+  theme_bw() +
+  labs(title = "Mean pupil diameter during imagery for IF\nRating > 2", x = "Condition", 
+       y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+```
+
+
+```{r redraw-path-plot3}
+ggplot(KR_df_3_both, aes(x=stim_color, y=mean_pupil_size_imagery_4000ms)) +
+  geom_path(aes(color = subject_id, group = factor(subject_id))) +
+  geom_dotplot(aes(fill = subject_id), binaxis="y", binwidth = .01, stackdir = "centerwhole") +
+  
+  geom_segment(aes(x = "black", y = mean((KR_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms),
+                   xend = "white", yend = mean((KR_df_3_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms),
+                   linetype="Average trend"), color = "red", size = 2) +
+  #Add error bars
+    geom_segment(aes(x = "black", y = mean((KR_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms - sd((KR_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((KR_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms))),
+                   xend = "black", yend = mean((KR_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms + sd((KR_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((KR_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)))),
+               color = "red", size = 2) +
+  
+  geom_segment(aes(x = "white", y = mean((KR_df_3_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms - sd((KR_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((KR_df_3_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms))),
+                   xend = "white", yend = mean((KR_df_3_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms + sd((KR_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((KR_df_3_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms)))),
+               color = "red", size = 2) +
+  
+  geom_segment(aes(x = stim_color, y = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                   xend = stim_color, yend = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+               color = subject_id), lineend = "square") +
+
+  geom_segment(data = KR_df_3_both%>%filter(stim_color=="black"), 
+                  aes(x = 1-0.03, y = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  xend = 1+0.03, yend = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  color = subject_id)) +
+  geom_segment(data = KR_df_3_both%>%filter(stim_color=="black"), 
+               aes(x = 1-0.03, y = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   xend = 1+0.03, yend = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   color = subject_id)) +
+  
+  geom_segment(data = KR_df_3_both%>%filter(stim_color=="white"), 
+                  aes(x = 2-0.03, y = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  xend = 2+0.03, yend = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  color = subject_id)) +
+  geom_segment(data = KR_df_3_both%>%filter(stim_color=="white"), 
+               aes(x = 2-0.03, y = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   xend = 2+0.03, yend = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   color = subject_id)) +
+  scale_linetype_manual("", values=c("dashed")) +
+  theme_bw() +
+  labs(title = "Mean pupil diameter during imagery for KR\nRating > 3", x = "Condition", 
+       y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+
+
+
+ggplot(IF_df_3_both, aes(x=stim_color, y=mean_pupil_size_imagery_4000ms)) +
+  geom_path(aes(color = subject_id, group = factor(subject_id))) +
+  geom_dotplot(aes(fill = subject_id), binaxis="y", binwidth = .01, stackdir = "centerwhole") +
+  
+  geom_segment(aes(x = "black", y = mean((IF_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms),
+                   xend = "white", yend = mean((IF_df_3_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms),
+                   linetype="Average trend"), color = "red", size = 2) +
+    #Add error bars
+    geom_segment(aes(x = "black", y = mean((IF_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms - sd((IF_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((IF_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms))),
+                   xend = "black", yend = mean((IF_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms + sd((IF_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((IF_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)))),
+               color = "red", size = 2) +
+  
+  geom_segment(aes(x = "white", y = mean((IF_df_3_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms - sd((IF_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((IF_df_3_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms))),
+                   xend = "white", yend = mean((IF_df_3_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms + sd((IF_df_3_both %>% filter(stim_color == "black"))$mean_pupil_size_imagery_4000ms)/sqrt(length((IF_df_3_both %>% filter(stim_color == "white"))$mean_pupil_size_imagery_4000ms)))),
+               color = "red", size = 2) +
+  
+  geom_segment(aes(x = stim_color, y = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                   xend = stim_color, yend = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+               color = subject_id), lineend = "square") +
+
+  geom_segment(data = IF_df_3_both%>%filter(stim_color=="black"), 
+                  aes(x = 1-0.03, y = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  xend = 1+0.03, yend = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  color = subject_id)) +
+  geom_segment(data = IF_df_3_both%>%filter(stim_color=="black"), 
+               aes(x = 1-0.03, y = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   xend = 1+0.03, yend = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   color = subject_id)) +
+  
+  geom_segment(data = IF_df_3_both%>%filter(stim_color=="white"), 
+                  aes(x = 2-0.03, y = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  xend = 2+0.03, yend = mean_pupil_size_imagery_4000ms - std_pupil_size_imagery_4000ms,
+                  color = subject_id)) +
+  geom_segment(data = IF_df_3_both%>%filter(stim_color=="white"), 
+               aes(x = 2-0.03, y = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   xend = 2+0.03, yend = mean_pupil_size_imagery_4000ms + std_pupil_size_imagery_4000ms,
+                   color = subject_id)) +
+  scale_linetype_manual("", values=c("dashed")) +
+  theme_bw() +
+  labs(title = "Mean pupil diameter during imagery for IF\nRating > 3", x = "Condition", 
+       y = "Pupil diameter change\nfrom baseline (mm)") +
+  theme(legend.position = "right")
+```
+
+
+
+
+# Comparison with QMI data.
+
+# Comparison of mean pupil size during perception
+
+```{r QMI-rating}
+visual_QMI_for_KR = QMI_df$visual_qmi[c(-1, -8, -35, -36, -45, -50, -53)]
+visual_QMI_for_IF = QMI_df$visual_qmi[c(-1, -8, -25, -35, -36, -45, -50, -53)]
+
+ggplot() +
+  geom_point(aes(x = visual_QMI_for_KR,
+                  y = ((KR_df %>% filter(stim_color == "black"))$mean_rating), color = "black")) +
+  geom_smooth(aes(x = visual_QMI_for_KR,
+                  y = (KR_df %>% filter(stim_color == "black"))$mean_rating, color = "black"),
+              formula = 'y~x', method = 'lm', se = F) +
+  geom_point(aes(x = visual_QMI_for_KR,
+                  y = (KR_df %>% filter(stim_color == "white"))$mean_rating, color = "white")) +
+  geom_smooth(aes(x = visual_QMI_for_KR,
+                  y = (KR_df %>% filter(stim_color == "white"))$mean_rating, color = "white"),
+              formula = 'y~x', method = 'lm', se = F) +
+  # Add annotations
+  stat_poly_eq(aes(x = visual_QMI_for_KR, y = (KR_df %>% filter(stim_color == "white"))$mean_rating,
+                   label = paste(..eq.label.., sep = "~~~")), 
+               label.x.npc = "right", label.y.npc = 0.1,
+               eq.with.lhs = "italic(y)~`=`~",
+               eq.x.rhs = "~italic(x)",
+               formula = x ~ poly(y, 1, raw = TRUE), parse = TRUE, size = 4, color = "grey75") +
+  stat_poly_eq(aes(x = visual_QMI_for_KR, y = (KR_df %>% filter(stim_color == "white"))$mean_rating,
+                   label = paste(..rr.label.., sep = "~~~")), 
+               label.x.npc = "right", label.y.npc = "bottom",
+               formula = x ~ poly(y, 1, raw = TRUE), parse = TRUE, size = 4, color = "grey75") +
+  
+  stat_poly_eq(aes(x = visual_QMI_for_KR, y = (KR_df %>% filter(stim_color == "black"))$mean_rating,
+                   label = paste(..eq.label.., sep = "~~~")), 
+               label.x.npc = "left", label.y.npc = 0.9,
+               eq.with.lhs = "italic(y)~`=`~",
+               eq.x.rhs = "~italic(x)",
+               formula = x ~ poly(y, 1, raw = TRUE), parse = TRUE, size = 4, color = "grey20") +
+  stat_poly_eq(aes(x = visual_QMI_for_KR, y = (KR_df %>% filter(stim_color == "black"))$mean_rating,
+                   label = paste(..rr.label.., sep = "~~~")), 
+               label.x.npc = "left", label.y.npc = 0.85,
+               formula = x ~ poly(y, 1, raw = TRUE), parse = TRUE, size = 4, color = "grey20") +
+  
+  geom_jitter(width = 0.1) +
+  theme_bw() +
+  ylim(0.9,4.1) +
+  labs(title = "Comparison of rating during KR and visual QMI", x = "Visual QMI", y = "Mean rating") +
+  scale_color_manual(name='Conditions',
+                     breaks=c('black', 'white'),
+                     values=c('black'='grey20', 'white'='grey75'),
+                     labels = c("Black", "White")) + 
+  theme(legend.position = "right")
+  
+  
+  
+  
+ggplot() +
+  geom_point(aes(x = visual_QMI_for_IF,
+                  y = (IF_df %>% filter(stim_color == "black"))$mean_rating, color = "black")) +
+  geom_smooth(aes(x = visual_QMI_for_IF,
+                  y = (IF_df %>% filter(stim_color == "black"))$mean_rating, color = "black"),
+              formula = 'y~x', method = 'lm', se = F) +
+  geom_point(aes(x = visual_QMI_for_IF,
+                  y = (IF_df %>% filter(stim_color == "white"))$mean_rating, color = "white")) +
+  geom_smooth(aes(x = visual_QMI_for_IF,
+                  y = (IF_df %>% filter(stim_color == "white"))$mean_rating, color = "white"),
+              formula = 'y~x', method = 'lm', se = F) +
+  # Add annotations
+  stat_poly_eq(aes(x = visual_QMI_for_IF, y = (IF_df %>% filter(stim_color == "white"))$mean_rating,
+                   label = paste(..eq.label.., sep = "~~~")), 
+               label.x.npc = "right", label.y.npc = 0.1,
+               eq.with.lhs = "italic(y)~`=`~",
+               eq.x.rhs = "~italic(x)",
+               formula = x ~ poly(y, 1, raw = TRUE), parse = TRUE, size = 4, color = "grey75") +
+  stat_poly_eq(aes(x = visual_QMI_for_IF, y = (IF_df %>% filter(stim_color == "white"))$mean_rating,
+                   label = paste(..rr.label.., sep = "~~~")), 
+               label.x.npc = "right", label.y.npc = "bottom",
+               formula = x ~ poly(y, 1, raw = TRUE), parse = TRUE, size = 4, color = "grey75") +
+  
+  stat_poly_eq(aes(x = visual_QMI_for_IF, y = (IF_df %>% filter(stim_color == "black"))$mean_rating,
+                   label = paste(..eq.label.., sep = "~~~")), 
+               label.x.npc = "left", label.y.npc = 0.9,
+               eq.with.lhs = "italic(y)~`=`~",
+               eq.x.rhs = "~italic(x)",
+               formula = x ~ poly(y, 1, raw = TRUE), parse = TRUE, size = 4, color = "grey20") +
+  stat_poly_eq(aes(x = visual_QMI_for_IF, y = (IF_df %>% filter(stim_color == "black"))$mean_rating,
+                   label = paste(..rr.label.., sep = "~~~")), 
+               label.x.npc = "left", label.y.npc = 0.85,
+               formula = x ~ poly(y, 1, raw = TRUE), parse = TRUE, size = 4, color = "grey20") +
+  
+  geom_jitter(width = 0.1) +
+  theme_bw() +
+  ylim(0.9,4.1) +
+  labs(title = "Comparison of rating during IF and visual QMI", x = "Visual QMI", y = "Mean rating") +
+  scale_color_manual(name='Conditions',
+                     breaks=c('black', 'white'),
+                     values=c('black'='grey20', 'white'='grey75'),
+                     labels = c("Black", "White")) + 
+  theme(legend.position = "right")
+
+```
+
+
+Low R² correlates with subjects reporting having difficulties to visualize during the experiment.
+  
+```{r radarchart, include = FALSE}
+
+aphants = c(45,50,53)
+
+QMI_df_radar = data.frame(Visual = c(35, 5, mean((QMI_df %>% filter(aphant==0))$visual_qmi)),
+                          Auditory = c(35, 5, mean((QMI_df %>% filter(aphant==0))$audio_qmi)),
+                          Tactile = c(35, 5, mean((QMI_df %>% filter(aphant==0))$tactile_qmi)),
+                          Proprioception = c(35, 5, mean((QMI_df %>% filter(aphant==0))$proprioception_qmi)),
+                          Gustatory = c(35, 5, mean((QMI_df %>% filter(aphant==0))$gustatory_qmi)),
+                          Olfaction = c(35, 5, mean((QMI_df %>% filter(aphant==0))$olfaction_qmi)),
+                          Feeling = c(35, 5, mean((QMI_df %>% filter(aphant==0))$feeling_qmi))
+                          )
+
+radarchart(QMI_df_radar)
+
+
+
+```
+
+
+
+```{r ggradar}
+
+# Define aphants
+aphants = c(45,50,53)
+
+#Define new df
+QMI_df_radar2 = data.frame(Group = c("General population", "Aphants"),
+                           
+                           Visual = c(mean((QMI_df %>% filter(aphant==0))$visual_qmi),mean((QMI_df %>% filter(aphant==1))$visual_qmi)),
+                           
+                          Auditory = c(mean((QMI_df %>% filter(aphant==0))$audio_qmi),mean((QMI_df %>% filter(aphant==1))$audio_qmi)),
+                          
+                          Tactile = c(mean((QMI_df %>% filter(aphant==0))$tactile_qmi),mean((QMI_df %>% filter(aphant==1))$tactile_qmi)),
+                          
+                          Proprioception = c(mean((QMI_df %>% filter(aphant==0))$proprioception_qmi),mean((QMI_df %>% filter(aphant==1))$proprioception_qmi)),
+                          
+                          Gustatory = c(mean((QMI_df %>% filter(aphant==0))$gustatory_qmi),mean((QMI_df %>% filter(aphant==1))$gustatory_qmi)),
+                          
+                          Olfaction = c(mean((QMI_df %>% filter(aphant==0))$olfaction_qmi),mean((QMI_df %>% filter(aphant==1))$olfaction_qmi)),
+                          
+                          Feeling = c(mean((QMI_df %>% filter(aphant==0))$feeling_qmi),mean((QMI_df %>% filter(aphant==1))$feeling_qmi)))
+
+
+# ggradar
+ggradar(QMI_df_radar2,
+        grid.min=5, grid.mid = 20, grid.max=35,
+        values.radar = c("5", "20", "35"),
+        background.circle.colour = "white",
+        group.colours = c("black", "grey80"),
+        gridline.min.linetype = 1,
+        gridline.mid.linetype = 1,
+        gridline.max.linetype = 1,
+        gridline.min.colour = "gray60",
+        gridline.mid.colour = "gray60",
+        gridline.max.colour = "gray60",
+        plot.title = "Questionnaire Upon Mental Imagery",
+        # legend.title = "Group",
+        legend.position = "bottom",
+        fill = TRUE, fill.alpha = 0.1,
+        grid.label.size = 4,
+        group.line.width = 1,
+        group.point.size = 3,
+        axis.label.size = 4,
+        axis.label.offset = 1.08
+        ) +
+    theme(
+        axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        text = element_text(face = "bold")) #remove y axis ticks)
+
+```
+
+
+```{r ggradar3}
+
+# Define aphants
+aphants = c(45,50,53)
+
+#Define new df
+QMI_df_radar3 = data.frame(Group = c("General population", "S045", "S050", "S053"),
+                           
+                           Visual = c(mean((QMI_df %>% filter(aphant==0))$visual_qmi), mean((QMI_df %>% filter(subject=="S045"))$visual_qmi), mean((QMI_df %>% filter(subject=="S050"))$visual_qmi), mean((QMI_df %>% filter(subject=="S053"))$visual_qmi)),
+                           
+                          Auditory = c(mean((QMI_df %>% filter(aphant==0))$audio_qmi), mean((QMI_df %>% filter(subject=="S045"))$audio_qmi), mean((QMI_df %>% filter(subject=="S050"))$audio_qmi), mean((QMI_df %>% filter(subject=="S053"))$audio_qmi)),
+                          
+                          Tactile = c(mean((QMI_df %>% filter(aphant==0))$tactile_qmi), mean((QMI_df %>% filter(subject=="S045"))$tactile_qmi), mean((QMI_df %>% filter(subject=="S050"))$tactile_qmi), mean((QMI_df %>% filter(subject=="S053"))$tactile_qmi)),
+                          
+                          Proprioception = c( mean((QMI_df %>% filter(subject=="S045"))$proprioception_qmi),mean((QMI_df %>% filter(aphant==1))$proprioception_qmi), mean((QMI_df %>% filter(subject=="S050"))$proprioception_qmi), mean((QMI_df %>% filter(subject=="S053"))$proprioception_qmi)),
+                          
+                          Gustatory = c( mean((QMI_df %>% filter(subject=="S045"))$gustatory_qmi),mean((QMI_df %>% filter(aphant==1))$gustatory_qmi), mean((QMI_df %>% filter(subject=="S050"))$gustatory_qmi), mean((QMI_df %>% filter(subject=="S053"))$gustatory_qmi)),
+                          
+                          Olfaction = c( mean((QMI_df %>% filter(subject=="S045"))$olfaction_qmi),mean((QMI_df %>% filter(aphant==1))$olfaction_qmi), mean((QMI_df %>% filter(subject=="S050"))$olfaction_qmi), mean((QMI_df %>% filter(subject=="S053"))$olfaction_qmi)),
+                          
+                          Feeling = c(mean((QMI_df %>% filter(aphant==0))$feeling_qmi), mean((QMI_df %>% filter(subject=="S045"))$feeling_qmi), mean((QMI_df %>% filter(subject=="S050"))$feeling_qmi), mean((QMI_df %>% filter(subject=="S053"))$feeling_qmi)))
+
+
+# ggradar
+ggradar(QMI_df_radar3,
+        grid.min=5, grid.mid = 20, grid.max=35,
+        values.radar = c("5", "20", "35"),
+        background.circle.colour = "white",
+        gridline.min.linetype = 1,
+        gridline.mid.linetype = 1,
+        gridline.max.linetype = 1,
+        gridline.min.colour = "gray60",
+        gridline.mid.colour = "gray60",
+        gridline.max.colour = "gray60",
+        plot.title = "Questionnaire Upon Mental Imagery",
+        legend.title = "Group",
+        legend.position = "bottom",
+        fill = TRUE, fill.alpha = 0.1,
+        grid.label.size = 4,
+        group.line.width = 1,
+        group.point.size = 3,
+        axis.label.size = 4,
+        axis.label.offset = 1.08
+        ) +
+    theme(
+        axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank(),
+        legend.text = element_blank(),
+        legend.title = element_blank(),
+        legend.position = "none",
+        text = element_text(face = "bold")) #remove y axis ticks)
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
